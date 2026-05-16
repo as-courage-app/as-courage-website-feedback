@@ -20,3 +20,7 @@ Start:
 
 Hinweis:
 Die Unterseiten impressum.html und datenschutz.html sind noch Platzhalter-Links. Sie werden später angelegt.
+
+Datenquelle Referenzen:
+Google-Sheets-CSV-Link für Website_Daten:
+https://docs.google.com/spreadsheets/d/e/2PACX-1vSDmF3PAsiD2osiDf99oDsrVkB3ytkQrOLYzJlSNj2TyonwGNkBcQZ9MYZxKlvH5aVljDCo5BxKkuyP/pub?gid=1985748499&single=true&output=csv

@@ -809,3 +809,400 @@ article.card.accent:target {
 article.card.accent:target h3 {
   background: var(--orange) !important;
 }
+
+/* Aktive Seite im Header sichtbar markieren */
+.main-nav a.is-active {
+  color: var(--orange-dark);
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+
+@media (max-width: 640px) {
+  .main-nav a.is-active {
+    background: var(--orange);
+    color: var(--text);
+    border-color: var(--orange);
+    text-decoration: none;
+    box-shadow: 0 8px 18px rgba(242, 148, 32, 0.22);
+  }
+}
+
+/* Klickbare Vertrauenskacheln auf der Startseite */
+.stat-link {
+  display: block;
+  color: var(--white);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-link:hover {
+  transform: translateY(-6px) scale(1.03);
+  background: var(--orange);
+  border-color: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+}
+
+.stat-link:hover strong,
+.stat-link:hover span {
+  color: var(--text);
+}
+
+.stat-link:focus-visible {
+  outline: 4px solid rgba(242, 148, 32, 0.72);
+  outline-offset: 5px;
+}
+
+/* Blauer Vertrauensbereich auf der Referenzenseite */
+.references-hero {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.references-hero .eyebrow,
+.references-hero h1,
+.references-hero .lead,
+.references-hero p {
+  color: var(--white);
+}
+
+.references-hero .hero-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--white);
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.18);
+}
+
+.references-hero .hero-card h2,
+.references-hero .hero-card p {
+  color: var(--white);
+}
+
+.references-hero .button.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.references-hero .button.secondary:hover {
+  background: var(--orange);
+  color: var(--text);
+  border-color: var(--orange);
+}
+
+/* Logo-Größe im Header begrenzen */
+.logo-link {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.site-logo {
+  display: block;
+  width: clamp(170px, 18vw, 260px);
+  max-height: 82px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Header-Navigation mit zusätzlichem Referenzen-Link stabilisieren */
+.header-inner {
+  gap: 28px;
+}
+
+.main-nav {
+  gap: 24px;
+  flex-wrap: nowrap;
+}
+
+.main-nav a {
+  white-space: nowrap;
+}
+
+.site-logo {
+  width: clamp(150px, 15vw, 230px);
+  max-height: 72px;
+}
+
+/* Finale Logo-Begrenzung im Header */
+.site-logo {
+  width: clamp(135px, 13vw, 205px) !important;
+  max-width: 205px !important;
+  max-height: 62px !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* Header-CTA einzeilig halten */
+.header-cta {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Header-CTA auch mobil sichtbar machen */
+@media (max-width: 760px) {
+  .header-cta {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 560px);
+    margin: 0 auto 18px;
+    padding: 16px 24px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--white);
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 14px 32px rgba(242, 148, 32, 0.28);
+  }
+}
+
+/* Mobil: Header nicht festkleben lassen, sondern mitscrollen */
+@media (max-width: 760px) {
+  .site-header {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+/* Referenzenseite: Hero-Karte optisch veredeln */
+.references-hero .hero-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 260px;
+  padding: 32px 28px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.18);
+}
+
+.references-hero .hero-card .eyebrow {
+  margin-bottom: 12px;
+}
+
+.references-hero #referenzen-gesamtzahl {
+  margin: 0 0 14px;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  line-height: 1;
+  font-weight: 900;
+  text-align: center;
+}
+
+.references-hero .hero-card p:last-child {
+  max-width: 24ch;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .references-hero .hero-card {
+    min-height: auto;
+    padding: 28px 22px;
+  }
+
+  .references-hero #referenzen-gesamtzahl {
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
+  }
+}
+
+/* Referenzenseite: Hero-Links als echte Buttons darstellen */
+.references-hero .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.references-hero .hero-actions .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.references-hero .hero-actions .button.primary {
+  background: var(--orange);
+  color: var(--text);
+  border: 2px solid var(--orange);
+  box-shadow: 0 14px 32px rgba(242, 148, 32, 0.28);
+}
+
+.references-hero .hero-actions .button.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.references-hero .hero-actions .button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+}
+
+.references-hero .hero-actions .button.secondary:hover {
+  background: var(--orange);
+  color: var(--text);
+  border-color: var(--orange);
+}
+
+/* Referenzenseite: Hero-Buttons ruhig weiß, Hover orange */
+.references-hero .hero-actions .button,
+.references-hero .hero-actions .button.primary,
+.references-hero .hero-actions .button.secondary {
+  background: var(--white);
+  color: var(--text);
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+}
+
+.references-hero .hero-actions .button:hover,
+.references-hero .hero-actions .button.primary:hover,
+.references-hero .hero-actions .button.secondary:hover {
+  background: var(--orange);
+  color: var(--text);
+  border-color: var(--orange);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.24);
+}
+
+/* Referenzenseite: Absprungmarken weniger tief positionieren */
+#erfahrung-seit-1997,
+#auftraggebende-branchen {
+  scroll-margin-top: 72px;
+}
+
+@media (max-width: 760px) {
+
+  #erfahrung-seit-1997,
+  #auftraggebende-branchen {
+    scroll-margin-top: 20px;
+  }
+}
+
+/* Referenzenseite: Sprungziele deutlich höher anzeigen */
+#erfahrung-seit-1997,
+#auftraggebende-branchen {
+  scroll-margin-top: -120px;
+  padding-top: 28px;
+}
+
+@media (max-width: 760px) {
+
+  #erfahrung-seit-1997,
+  #auftraggebende-branchen {
+    scroll-margin-top: 0;
+    padding-top: 24px;
+  }
+}
+
+/* Startseite: Kurzprofil nicht wie Buttons darstellen */
+.hero-trust-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 22px 0 28px;
+}
+
+.hero-trust-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--blue);
+  font-weight: 800;
+  box-shadow: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+.hero-trust-row span::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--orange);
+  flex: 0 0 auto;
+}
+
+.hero-trust-row span:hover {
+  transform: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 760px) {
+  .hero-trust-row {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-trust-row span {
+    font-size: 0.95rem;
+  }
+}
+
+/* Startseite: Zielgruppen als symmetrisches 3x3-Raster */
+.mini-grid-targets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mini-grid-targets .mini-card {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mini-grid-targets .mini-card:hover {
+  transform: translateY(-5px);
+  background: var(--orange);
+  color: var(--text);
+  border-color: var(--orange);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16);
+}
+
+@media (max-width: 980px) {
+  .mini-grid-targets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .mini-grid-targets {
+    grid-template-columns: 1fr;
+  }
+}
