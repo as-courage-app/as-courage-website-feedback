@@ -502,6 +502,19 @@ h3 {
     color 0.18s ease;
 }
 
+.mini-grid-targets .mini-card:hover,
+.mini-grid-targets .mini-card:focus-visible {
+  background: #f29420;
+  color: #1a1a1a;
+  border-color: #f29420;
+  transform: translateY(-5px);
+  box-shadow: 0 18px 42px rgba(31, 58, 95, 0.18);
+}
+
+.mini-grid-targets .mini-card:active {
+  transform: translateY(-2px);
+}
+
 .mini-card:hover {
   transform: translateY(-4px);
   border-color: rgba(242, 148, 32, 0.65);
@@ -1205,4 +1218,11 @@ article.card.accent:target h3 {
   .mini-grid-targets {
     grid-template-columns: 1fr;
   }
+}
+
+.anchor-offset {
+  display: block;
+  position: relative;
+  top: -120px;
+  visibility: hidden;
 }
