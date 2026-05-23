@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body class="page-zielgruppen">
   <a class="skip-link" href="#main">Direkt zum Inhalt</a>
 
   <header class="site-header">
@@ -229,29 +229,34 @@
     </div>
   </footer>
   <style>
-    article.card.accent {
-      position: relative;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    /* Zielgruppenseite: Zielgruppen-Kacheln sind Inhaltskarten, keine Buttons */
+    .page-zielgruppen #gruppen article.card.accent {
+      cursor: default;
     }
 
-    article.card.accent:target,
-    article.card.accent.jump-active-card {
-      border: 1px solid rgba(31, 58, 95, 0.1) !important;
+    .page-zielgruppen #gruppen article.card.accent:hover {
+      z-index: 1 !important;
+      transform: none !important;
+      border-color: rgba(31, 58, 95, 0.1) !important;
+      box-shadow: var(--shadow-soft) !important;
+    }
+
+    .page-zielgruppen #gruppen article.card.accent:hover h3 {
+      background: var(--orange-dark) !important;
+      color: var(--white) !important;
+    }
+
+    .page-zielgruppen #gruppen article.card.accent:target,
+    .page-zielgruppen #gruppen article.card.accent.jump-active-card {
+      z-index: 20 !important;
+      transform: none !important;
+      border: 2px solid var(--orange) !important;
       outline: none !important;
-      outline-offset: 0 !important;
+      box-shadow: 0 18px 42px rgba(31, 58, 95, 0.16) !important;
     }
 
-    article.card.accent:hover,
-    article.card.accent.jump-active-card {
-      z-index: 50 !important;
-      transform: translateY(-5px) scale(1.025) !important;
-      box-shadow: 0 22px 52px rgba(31, 58, 95, 0.24) !important;
-    }
-
-    article.card.accent:hover h3,
-    article.card.accent.jump-active-card h3 {
+    .page-zielgruppen #gruppen article.card.accent:target h3,
+    .page-zielgruppen #gruppen article.card.accent.jump-active-card h3 {
       background: var(--orange) !important;
       color: #1a1a1a !important;
     }

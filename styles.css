@@ -83,7 +83,7 @@ a {
 }
 
 .section {
-  padding: 88px 0;
+  padding: 56px 0;
 }
 
 .soft {
@@ -166,7 +166,7 @@ a {
 }
 
 .hero {
-  padding: 92px 0 78px;
+  padding: 56px 0 64px;
   background:
     radial-gradient(circle at top left, rgba(242, 148, 32, 0.16), transparent 36%),
     linear-gradient(135deg, var(--cream), var(--peach));
@@ -710,7 +710,7 @@ h3 {
   }
 
   .section {
-    padding: 62px 0;
+    padding: 42px 0;
   }
 
   .header-inner {
@@ -1225,4 +1225,72 @@ article.card.accent:target h3 {
   position: relative;
   top: -120px;
   visibility: hidden;
+}
+
+/* Absprungpositionen für sichtbare Seiten-Buttons */
+#formate,
+#gruppen {
+  scroll-margin-top: 92px;
+}
+
+#medien,
+#thema-der-woche {
+  scroll-margin-top: 24px;
+}
+
+#kontakt {
+  scroll-margin-top: 96px;
+}
+
+/* Seitenspezifisch: Themen & Formate */
+.page-themen-formate #formate {
+  scroll-margin-top: -95px;
+}
+
+/* Themen & Formate: nicht verlinkte Format-Karten ruhig darstellen */
+.page-themen-formate #formate .card.accent {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.page-themen-formate #formate .card.accent h3 {
+  background: rgba(255, 255, 255, 0.38);
+  color: var(--blue);
+  border-bottom: none;
+  padding: 24px 28px 8px;
+}
+
+.page-themen-formate #formate .card.accent p {
+  padding: 0 28px 28px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.page-themen-formate #formate .card.accent:hover {
+  z-index: 1 !important;
+  transform: none !important;
+  border-color: rgba(31, 58, 95, 0.1) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.page-themen-formate #formate .card.accent:hover h3 {
+  background: rgba(255, 255, 255, 0.38) !important;
+  color: var(--blue) !important;
+}
+
+/* Seitenspezifisch: Zielgruppen */
+.page-zielgruppen #gruppen {
+  scroll-margin-top: -95px;
+}
+
+@media (max-width: 760px) {
+
+  #formate,
+  #gruppen,
+  #medien,
+  #thema-der-woche {
+    scroll-margin-top: 24px;
+  }
+
+  #kontakt {
+    scroll-margin-top: 72px;
+  }
 }
