@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konfliktkostenrechner | kostenloses Praxis-Tool | as-courage</title>
+  <meta name="description" content="Kostenloser Konfliktkostenrechner von as-courage: Konfliktfolgekosten einschätzen, Handlungsfelder erkennen und Prävention planen." />
+  <style>
+    :root {
+      --orange: #F29420;
+      --orange-dark: #d87f10;
+      --green: #4EA72E;
+      --green-dark: #3f8b25;
+      --ink: #17172a;
+      --muted: #5a5f73;
+      --line: #e6ded2;
+      --paper: #fffdf8;
+      --soft: #f7efe3;
+      --soft-2: #fff7ec;
+      --green-soft: #eef8e8;
+      --red: #b8392e;
+      --red-soft: #fdecea;
+      --blue: #245eaa;
+      --blue-soft: #edf4ff;
+      --shadow: 0 16px 44px rgba(26, 26, 46, .10);
+      --shadow-hover: 0 20px 60px rgba(26, 26, 46, .16);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(242,148,32,.16), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(78,167,46,.11), transparent 24%),
+        linear-gradient(180deg, #fffaf2 0%, #f5efe6 52%, #fffdf8 100%);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    button, a.button, .nav-link, .step-dot, .tool-card { cursor: pointer; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(255,253,248,.90);
+      border-bottom: 1px solid rgba(230,222,210,.85);
+    }
+
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--orange);
+      color: #111;
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(242,148,32,.22);
+    }
+
+    .brand small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 650;
+      letter-spacing: .02em;
+      margin-top: -2px;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      padding: 9px 11px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      transition: .18s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--orange);
+      color: #111;
+      transform: translateY(-1px);
+    }
+
+    .nav-link.cta {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(78,167,46,.18);
+    }
+
+    .nav-link.cta:hover { background: var(--green-dark); color: #fff; }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 54px 18px 28px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--soft-2);
+      border: 1px solid rgba(242,148,32,.28);
+      color: #8a4b00;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+    }
+
+    .hero .lead {
+      margin: 18px 0 0;
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .hero-actions,
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font: inherit;
+      font-weight: 800;
+      transition: .18s ease;
+      min-height: 46px;
+    }
+
+    .button:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+    .button.primary { background: var(--orange); color: #111; }
+    .button.primary:hover { background: var(--orange-dark); color: #fff; }
+    .button.green { background: var(--green); color: #fff; }
+    .button.green:hover { background: var(--green-dark); }
+    .button.ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .button.danger { background: var(--red-soft); color: var(--red); border: 1px solid rgba(184,57,46,.18); }
+    .button:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .hero-card {
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(230,222,210,.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-card h2 { margin: 0; font-size: 20px; }
+    .hero-card p { margin: 0; color: var(--muted); }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .strip {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px 28px;
+    }
+
+    .access-card,
+    .tool-shell,
+    .service-hub-note {
+      background: rgba(255,255,255,.83);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .access-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .access-card h2 { margin: 0 0 6px; font-size: 21px; }
+    .access-card p { margin: 0; color: var(--muted); }
+
+    .tool-shell {
+      max-width: var(--max);
+      margin: 0 auto 44px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .tool-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 20px 22px;
+      background: linear-gradient(135deg, rgba(26,26,46,.96), rgba(45,53,97,.96));
+      color: #fff;
+    }
+
+    .tool-top h2 { margin: 0; font-size: 20px; }
+    .tool-top p { margin: 4px 0 0; color: rgba(255,255,255,.68); font-size: 14px; }
+
+    .step-nav {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .step-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.30);
+      background: transparent;
+      color: rgba(255,255,255,.72);
+      font-weight: 850;
+      transition: .18s ease;
+    }
+
+    .step-dot:hover,
+    .step-dot.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #111;
+      transform: translateY(-1px);
+    }
+
+    .step-dot.done {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .progress {
+      height: 5px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .progress span {
+      display: block;
+      width: 16.66%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--green));
+      transition: width .25s ease;
+    }
+
+    .tool-body { padding: 22px; }
+
+    .step-panel { display: none; animation: fadeUp .22s ease; }
+    .step-panel.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-header {
+      background: var(--soft-2);
+      border: 1px solid rgba(242,148,32,.22);
+      border-left: 7px solid var(--orange);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .step-header.green {
+      background: var(--green-soft);
+      border-color: rgba(78,167,46,.24);
+      border-left-color: var(--green);
+    }
+
+    .step-header .tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #9a5608;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .step-header.green .tag { color: var(--green-dark); }
+    .step-header h3 { margin: 0; font-size: 23px; }
+    .step-header p { margin: 7px 0 0; color: var(--muted); }
+
+    .grid-2, .grid-3, .grid-4 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 30px rgba(26,26,46,.06);
+    }
+
+    .card h4 {
+      margin: 0 0 14px;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field { display: grid; gap: 6px; }
+
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    input, select {
+      width: 100%;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-weight: 650;
+      transition: .18s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(242,148,32,.12);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .inline-slider {
+      display: grid;
+      grid-template-columns: 1fr 74px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] { accent-color: var(--orange); }
+
+    .slider-value {
+      background: var(--soft-2);
+      border: 1px solid rgba(242,148,32,.22);
+      border-radius: 12px;
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: 900;
+      color: #8a4b00;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border-radius: 13px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      transition: .18s ease;
+    }
+
+    .check-item:hover { transform: translateY(-1px); border-color: rgba(242,148,32,.50); background: var(--soft-2); }
+    .check-item input { width: 18px; height: 18px; accent-color: var(--orange); margin-top: 2px; }
+    .check-item span { font-weight: 700; }
+
+    .notice {
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 14px 0;
+      background: var(--blue-soft);
+      border: 1px solid rgba(36,94,170,.16);
+      color: #183f73;
+      font-size: 14px;
+    }
+
+    .notice.orange { background: var(--soft-2); border-color: rgba(242,148,32,.22); color: #7b4708; }
+    .notice.green { background: var(--green-soft); border-color: rgba(78,167,46,.22); color: #275c17; }
+    .notice.red { background: var(--red-soft); border-color: rgba(184,57,46,.18); color: #7b251f; }
+    .notice strong { color: inherit; }
+
+    .result-hero {
+      border-radius: var(--radius);
+      padding: 28px;
+      color: #fff;
+      background: linear-gradient(135deg, #17172a, #303a72);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .result-hero .label { color: rgba(255,255,255,.70); font-weight: 800; }
+    .result-hero .number { font-size: clamp(40px, 7vw, 72px); line-height: 1; color: var(--orange); font-weight: 950; letter-spacing: -.05em; margin: 10px 0; }
+    .result-hero p { margin: 0; color: rgba(255,255,255,.72); }
+
+    .kpi-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(26,26,46,.06);
+    }
+
+    .kpi-card .value { font-size: 26px; font-weight: 950; letter-spacing: -.03em; }
+    .kpi-card .label { color: var(--muted); font-size: 13px; font-weight: 800; }
+    .kpi-card.orange { border-top: 5px solid var(--orange); }
+    .kpi-card.green { border-top: 5px solid var(--green); }
+    .kpi-card.red { border-top: 5px solid var(--red); }
+    .kpi-card.blue { border-top: 5px solid var(--blue); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th { background: #17172a; color: #fff; }
+    tr:last-child td { border-bottom: 0; }
+    td.num { text-align: right; font-weight: 900; white-space: nowrap; }
+    .text-red { color: var(--red); }
+    .text-green { color: var(--green-dark); }
+
+    .bar-list { display: grid; gap: 10px; }
+    .bar-label { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+    .bar-track { height: 15px; background: var(--soft); border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; width: 0; background: var(--orange); border-radius: 999px; transition: width .6s ease; }
+    .bar-fill.red { background: var(--red); }
+    .bar-fill.green { background: var(--green); }
+
+    .recommendations { display: grid; gap: 10px; }
+    .recommendation {
+      padding: 13px 14px;
+      border-radius: 13px;
+      background: var(--soft-2);
+      border-left: 5px solid var(--orange);
+      color: #553003;
+      font-weight: 700;
+    }
+
+    .service-hub-note {
+      max-width: var(--max);
+      margin: 0 auto 54px;
+    }
+
+    .tool-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .tool-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: .18s ease;
+      min-height: 130px;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(242,148,32,.55);
+    }
+
+    .tool-card strong { display: block; margin-bottom: 6px; }
+    .tool-card span { color: var(--muted); font-size: 14px; }
+
+    .site-footer {
+      background: #fffaf2;
+      border-top: 1px solid var(--line);
+      padding: 26px 18px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    .print-only { display: none; }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; padding-top: 36px; }
+      .access-card, .tool-top { grid-template-columns: 1fr; }
+      .step-nav { justify-content: flex-start; }
+      .grid-3, .grid-4, .tool-card-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .header-inner { align-items: flex-start; flex-direction: column; }
+      .main-nav { justify-content: flex-start; gap: 6px; }
+      .nav-link { font-size: 13px; padding: 8px 9px; }
+      .hero { padding-inline: 14px; }
+      .strip { padding-inline: 14px; }
+      .tool-shell, .service-hub-note { margin-inline: 10px; }
+      .tool-body, .tool-top { padding: 16px; }
+      .grid-2, .grid-3, .grid-4, .check-grid, .tool-card-grid { grid-template-columns: 1fr; }
+      .button-row, .hero-actions { align-items: stretch; }
+      .button { width: 100%; }
+      .result-hero { padding: 20px; }
+      th, td { font-size: 13px; }
+      td.num { white-space: normal; }
+    }
+
+    @media print {
+      .site-header, .hero, .strip, .tool-top, .progress, .button-row, .service-hub-note, .site-footer { display: none !important; }
+      body { background: #fff; }
+      .tool-shell { box-shadow: none; border: 0; margin: 0; }
+      .tool-body { padding: 0; }
+      .step-panel { display: none !important; }
+      #step6 { display: block !important; }
+      .print-only { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Zur Startseite von as-courage">
+        <span class="brand-mark">as</span>
+        <span>as-courage<small>Training · Coaching · Praxis-Tools</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a class="nav-link" href="index.html">Start</a>
+        <a class="nav-link" href="produkte.html">Produkte</a>
+        <a class="nav-link active" href="praxis-tools.html">Praxis-Tools</a>
+        <a class="nav-link" href="editor.html">Editor</a>
+        <a class="nav-link" href="shop.html">Shop</a>
+        <a class="nav-link" href="kontakt.html">Kontakt</a>
+        <a class="nav-link cta" href="app.html">Kostenlose App testen</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Kostenloses Praxis-Tool · Konflikte sichtbar machen</span>
+      <h1>Konfliktkostenrechner für Teams und Organisationen</h1>
+      <p class="lead">Konflikte kosten Zeit, Energie und oft auch Geld. Dieser Rechner hilft, typische Konfliktfolgekosten greifbar zu machen und daraus sinnvolle nächste Schritte abzuleiten.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#tool">Rechner starten</a>
+        <a class="button ghost" href="praxis-tools.html">Zur Tool-Übersicht</a>
+      </div>
+    </div>
+
+    <aside class="hero-card" aria-label="Hinweise zum Konfliktkostenrechner">
+      <h2>Wofür ist das Tool gut?</h2>
+      <ul class="mini-list">
+        <li><span class="check">✓</span><span>Es macht verdeckte Kosten durch Reibung, Fehlzeiten, Fluktuation und Führungsaufwand sichtbar.</span></li>
+        <li><span class="check">✓</span><span>Es liefert eine Gesprächsgrundlage für Führung, HR, Teamentwicklung und Organisationsentwicklung.</span></li>
+        <li><span class="check">✓</span><span>Es zeigt, welche Investitionen in Konfliktprävention sich wirtschaftlich lohnen können.</span></li>
+      </ul>
+      <div class="notice orange"><strong>Wichtig:</strong> Die Werte sind Orientierungen. Sie ersetzen keine betriebswirtschaftliche Prüfung, Rechtsberatung oder psychologische Diagnostik.</div>
+    </aside>
+  </section>
+
+  <div class="strip">
+    <section class="access-card" aria-label="Kostenloses Konto und Newsletter">
+      <div>
+        <h2>Kostenlos nutzbar nach Kontoanmeldung</h2>
+        <p>Perspektivisch werden die Praxis-Tools nach Anmeldung mit einem kostenlosen Konto freigeschaltet. Das Newsletter-Abo bleibt freiwillig. Für diesen ersten Test ist der Rechner direkt nutzbar.</p>
+      </div>
+      <div class="button-row" style="margin-top:0;">
+        <a class="button green" href="konto.html?next=konfliktkostenrechner.html">Kostenloses Konto anlegen</a>
+        <a class="button ghost" href="#tool">Ohne Konto testen</a>
+      </div>
+    </section>
+  </div>
+
+  <main id="tool" class="tool-shell" aria-label="Konfliktkostenrechner">
+    <div class="tool-top">
+      <div>
+        <h2>Konfliktkosten berechnen</h2>
+        <p>Fünf kurze Eingabeschritte. Danach erhalten Sie eine Auswertung mit Kostenblöcken, ROI-Schätzung und Empfehlungen.</p>
+      </div>
+      <div class="step-nav" aria-label="Schritt-Navigation">
+        <button class="step-dot active" type="button" data-step="1" title="Basisdaten">1</button>
+        <button class="step-dot" type="button" data-step="2" title="Fehlzeiten und Fluktuation">2</button>
+        <button class="step-dot" type="button" data-step="3" title="Konfliktgeschehen">3</button>
+        <button class="step-dot" type="button" data-step="4" title="Führung und Kultur">4</button>
+        <button class="step-dot" type="button" data-step="5" title="Investition">5</button>
+        <button class="step-dot" type="button" data-step="6" title="Ergebnis">✓</button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+    <div class="tool-body">
+      <section class="step-panel active" id="step1">
+        <div class="step-header">
+          <div class="tag">Schritt 1 von 5 · Basisdaten</div>
+          <h3>Organisation und Personalkosten</h3>
+          <p>Die Vorschlagswerte können direkt überschrieben werden. Für eine erste Einschätzung reichen realistische Näherungswerte.</p>
+        </div>
+
+        <div class="card">
+          <h4>Organisation</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="employees">Beschäftigte gesamt</label>
+              <input id="employees" type="number" min="1" value="200" />
+            </div>
+            <div class="field">
+              <label for="leaders">Davon Führungskräfte</label>
+              <input id="leaders" type="number" min="0" value="20" />
+            </div>
+            <div class="field">
+              <label for="sector">Bereich / Branche</label>
+              <select id="sector">
+                <option>Verarbeitendes Gewerbe</option>
+                <option>Gesundheit, Pflege und Soziales</option>
+                <option>Bildung und Erwachsenenbildung</option>
+                <option>Öffentlicher Dienst</option>
+                <option>Handel und Vertrieb</option>
+                <option>IT, Technik und Beratung</option>
+                <option>Sonstiges</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Personalkosten und Arbeitszeit</h4>
+          <div class="grid-2">
+            <div class="field">
+              <label for="avgSalary">Ø Arbeitgeber*innenkosten je beschäftigter Person / Jahr</label>
+              <input id="avgSalary" type="number" min="0" step="1000" value="50000" />
+              <span class="hint">inkl. Lohnnebenkosten, soweit bekannt</span>
+            </div>
+            <div class="field">
+              <label for="leaderSalary">Ø Arbeitgeber*innenkosten je Führungskraft / Jahr</label>
+              <input id="leaderSalary" type="number" min="0" step="1000" value="80000" />
+            </div>
+            <div class="field">
+              <label for="personnelCosts">Gesamte Personalkosten / Jahr</label>
+              <input id="personnelCosts" type="number" min="0" step="100000" value="10000000" />
+              <span class="hint">Wird aus Beschäftigten × Ø-Kosten vorgeschlagen.</span>
+            </div>
+            <div class="field">
+              <label for="workdays">Arbeitstage pro Jahr</label>
+              <input id="workdays" type="number" min="1" max="366" value="220" />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button primary" type="button" data-next="2">Weiter</button>
+        </div>
+      </section>
+
+      <section class="step-panel" id="step2">
+        <div class="step-header">
+          <div class="tag">Schritt 2 von 5 · Fehlzeiten und Fluktuation</div>
+          <h3>Wo entstehen spürbare Folgekosten?</h3>
+          <p>Hier geht es nicht um Schuld, sondern um Muster: Ausfälle, Abgänge und Suchkosten werden häufig erst spät als Konfliktfolge erkannt.</p>
+        </div>
+
+        <div class="card">
+          <h4>Fehlzeiten</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="absenceDays">Ø Fehltage pro Person / Jahr</label>
+              <input id="absenceDays" type="number" min="0" step="0.5" value="15" />
+            </div>
+            <div class="field">
+              <label for="conflictAbsence">Davon konfliktbedingt geschätzt</label>
+              <div class="inline-slider">
+                <input id="conflictAbsence" type="range" min="0" max="50" value="15" />
+                <span class="slider-value" data-for="conflictAbsence">15 %</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="sickRate">Krankenquote gesamt</label>
+              <input id="sickRate" type="number" min="0" max="100" step="0.1" value="6.5" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Fluktuation</h4>
+          <div class="grid-4">
+            <div class="field">
+              <label for="leavers">Abgänge pro Jahr</label>
+              <input id="leavers" type="number" min="0" value="12" />
+            </div>
+            <div class="field">
+              <label for="conflictLeavers">Davon konfliktbedingt</label>
+              <div class="inline-slider">
+                <input id="conflictLeavers" type="range" min="0" max="100" value="25" />
+                <span class="slider-value" data-for="conflictLeavers">25 %</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="replacementFactor">Ersatzkosten-Faktor</label>
+              <input id="replacementFactor" type="number" min="0" step="0.1" value="4" />
+              <span class="hint">Monatsgehälter je Neubesetzung</span>
+            </div>
+            <div class="field">
+              <label for="fluctuationRate">Fluktuationsrate</label>
+              <input id="fluctuationRate" type="number" min="0" max="100" step="0.1" value="8" />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button ghost" type="button" data-prev="1">Zurück</button>
+          <button class="button primary" type="button" data-next="3">Weiter</button>
+        </div>
+      </section>
+
+      <section class="step-panel" id="step3">
+        <div class="step-header">
+          <div class="tag">Schritt 3 von 5 · Konfliktgeschehen</div>
+          <h3>Zeit, Produktivität und Eskalation</h3>
+          <p>Konflikte zeigen sich oft als kleine Reibungsverluste. Genau diese kleinen Verluste summieren sich.</p>
+        </div>
+
+        <div class="card">
+          <h4>Zeit- und Produktivitätsverluste</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="employeeTimeLoss">Zeitverlust Beschäftigte</label>
+              <div class="inline-slider">
+                <input id="employeeTimeLoss" type="range" min="0" max="20" value="5" />
+                <span class="slider-value" data-for="employeeTimeLoss">5 %</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="leaderTimeLoss">Zeitverlust Führungskräfte</label>
+              <div class="inline-slider">
+                <input id="leaderTimeLoss" type="range" min="0" max="35" value="12" />
+                <span class="slider-value" data-for="leaderTimeLoss">12 %</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="productivityLoss">Produktivitätsverlust</label>
+              <div class="inline-slider">
+                <input id="productivityLoss" type="range" min="0" max="25" value="6" />
+                <span class="slider-value" data-for="productivityLoss">6 %</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Bearbeitungs- und Eskalationskosten</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="hrHours">HR-/Leitungsaufwand pro Jahr in Stunden</label>
+              <input id="hrHours" type="number" min="0" value="180" />
+            </div>
+            <div class="field">
+              <label for="legalCases">Arbeitsrechtliche Verfahren</label>
+              <input id="legalCases" type="number" min="0" value="1" />
+            </div>
+            <div class="field">
+              <label for="legalCost">Ø Kosten je Verfahren</label>
+              <input id="legalCost" type="number" min="0" step="500" value="8000" />
+            </div>
+            <div class="field">
+              <label for="bullyingCases">Mobbing-/Eskalationsfälle</label>
+              <input id="bullyingCases" type="number" min="0" value="1" />
+            </div>
+            <div class="field">
+              <label for="bullyingCost">Ø Kosten je Eskalationsfall</label>
+              <input id="bullyingCost" type="number" min="0" step="500" value="12000" />
+            </div>
+            <div class="field">
+              <label for="innerResignation">Innere Kündigung geschätzt</label>
+              <div class="inline-slider">
+                <input id="innerResignation" type="range" min="0" max="40" value="12" />
+                <span class="slider-value" data-for="innerResignation">12 %</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button ghost" type="button" data-prev="2">Zurück</button>
+          <button class="button primary" type="button" data-next="4">Weiter</button>
+        </div>
+      </section>
+
+      <section class="step-panel" id="step4">
+        <div class="step-header">
+          <div class="tag">Schritt 4 von 5 · Führung und Kultur</div>
+          <h3>Was schützt bereits?</h3>
+          <p>Gute Strukturen verhindern nicht jeden Konflikt. Aber sie verhindern oft, dass Konflikte teuer, still oder zerstörerisch werden.</p>
+        </div>
+
+        <div class="card">
+          <h4>Kulturindikatoren</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="psychSafety">Psychologische Sicherheit</label>
+              <div class="inline-slider">
+                <input id="psychSafety" type="range" min="1" max="10" value="6" />
+                <span class="slider-value" data-for="psychSafety">6 / 10</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="trainedLeaders">Führungskräfte mit Konflikttraining</label>
+              <div class="inline-slider">
+                <input id="trainedLeaders" type="range" min="0" max="100" value="40" />
+                <span class="slider-value" data-for="trainedLeaders">40 %</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="roleClarity">Rollenklarheit im Alltag</label>
+              <div class="inline-slider">
+                <input id="roleClarity" type="range" min="1" max="10" value="6" />
+                <span class="slider-value" data-for="roleClarity">6 / 10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Vorhandene Schutzstrukturen</h4>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" id="structure1" /><span>Klare Leitlinie gegen Diskriminierung, Mobbing und Grenzverletzungen</span></label>
+            <label class="check-item"><input type="checkbox" id="structure2" /><span>Benannte Ansprechperson für Konflikte</span></label>
+            <label class="check-item"><input type="checkbox" id="structure3" /><span>Regelmäßige Teamreflexion oder Supervision</span></label>
+            <label class="check-item"><input type="checkbox" id="structure4" /><span>Verbindlicher Prozess für Konfliktklärung</span></label>
+            <label class="check-item"><input type="checkbox" id="structure5" /><span>Gefährdungsbeurteilung psychischer Belastungen wird berücksichtigt</span></label>
+            <label class="check-item"><input type="checkbox" id="structure6" /><span>Führungskräfte sprechen Konflikte frühzeitig und wertschätzend an</span></label>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button ghost" type="button" data-prev="3">Zurück</button>
+          <button class="button primary" type="button" data-next="5">Weiter</button>
+        </div>
+      </section>
+
+      <section class="step-panel" id="step5">
+        <div class="step-header">
+          <div class="tag">Schritt 5 von 5 · Investitionsplanung</div>
+          <h3>Was könnte Prävention kosten?</h3>
+          <p>Hier können Trainings, Workshops, Mediation, Coaching und begleitende Maßnahmen grob geplant werden.</p>
+        </div>
+
+        <div class="card">
+          <h4>Jährliche Investition in Konfliktprävention</h4>
+          <div class="grid-3">
+            <div class="field">
+              <label for="trainingCost">Führungskräftetraining gesamt</label>
+              <input id="trainingCost" type="number" min="0" step="500" value="12000" />
+            </div>
+            <div class="field">
+              <label for="teamWorkshops">Team-Workshops gesamt</label>
+              <input id="teamWorkshops" type="number" min="0" step="500" value="8000" />
+            </div>
+            <div class="field">
+              <label for="mediationCost">Externe Mediation / Klärung</label>
+              <input id="mediationCost" type="number" min="0" step="500" value="6000" />
+            </div>
+            <div class="field">
+              <label for="coachingCost">Coaching / Supervision</label>
+              <input id="coachingCost" type="number" min="0" step="500" value="7000" />
+            </div>
+            <div class="field">
+              <label for="surveyCost">Befragung / Analyse / Evaluation</label>
+              <input id="surveyCost" type="number" min="0" step="500" value="3000" />
+            </div>
+            <div class="field">
+              <label for="otherInvestment">Sonstige Maßnahmen</label>
+              <input id="otherInvestment" type="number" min="0" step="500" value="2000" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Erwartete Wirksamkeit</h4>
+          <div class="grid-2">
+            <div class="field">
+              <label for="savingPotential">Realistisches Einsparpotenzial</label>
+              <div class="inline-slider">
+                <input id="savingPotential" type="range" min="1" max="50" value="18" />
+                <span class="slider-value" data-for="savingPotential">18 %</span>
+              </div>
+              <span class="hint">Konservative Werte sind glaubwürdiger als Wunschdenken. Kleine Schritte, große Wirkung.</span>
+            </div>
+            <div class="notice green"><strong>Hinweis:</strong> Ein gutes Konfliktmanagement ist keine „Kuschelecke“. Es ist saubere Führungsarbeit: früh klären, klar kommunizieren, Menschen schützen und wirtschaftliche Schäden begrenzen.</div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button ghost" type="button" data-prev="4">Zurück</button>
+          <button class="button green" type="button" id="calculateBtn">Ergebnis berechnen</button>
+        </div>
+      </section>
+
+      <section class="step-panel" id="step6">
+        <div class="print-only">
+          <h1>Konfliktkostenrechner · as-courage</h1>
+          <p>Orientierende Auswertung. Erstellt mit dem kostenlosen Praxis-Tool von as-courage.</p>
+        </div>
+
+        <div class="step-header green">
+          <div class="tag">Auswertung · Ergebnis</div>
+          <h3>Ihre orientierende Konfliktkosten-Schätzung</h3>
+          <p>Die Zahlen sind eine Annäherung. Entscheidend ist nicht die letzte Nachkommastelle, sondern die Richtung: Wo lohnt sich frühe Klärung?</p>
+        </div>
+
+        <div class="result-hero">
+          <div class="label">Geschätzte jährliche Konfliktfolgekosten</div>
+          <div class="number" id="totalCost">0 €</div>
+          <p id="resultContext">Bitte zuerst die Eingaben berechnen.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:16px;">
+          <div class="kpi-card red"><div class="value" id="kpiCost">0 €</div><div class="label">Konfliktkosten IST</div></div>
+          <div class="kpi-card orange"><div class="value" id="kpiInvest">0 €</div><div class="label">Investition / Jahr</div></div>
+          <div class="kpi-card green"><div class="value" id="kpiSaving">0 €</div><div class="label">Mögliche Einsparung</div></div>
+          <div class="kpi-card blue"><div class="value" id="kpiRoi">0 %</div><div class="label">ROI-Schätzung</div></div>
+        </div>
+
+        <div class="card">
+          <h4>Kostenblöcke</h4>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead><tr><th>Kostenbereich</th><th class="num">Betrag</th><th class="num">Anteil</th></tr></thead>
+              <tbody id="costTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Visuelle Einordnung</h4>
+          <div class="bar-list" id="barList"></div>
+        </div>
+
+        <div class="card">
+          <h4>Wirtschaftliche Einordnung</h4>
+          <div style="overflow-x:auto;">
+            <table>
+              <tbody id="roiTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Empfehlungen für den nächsten Schritt</h4>
+          <div class="recommendations" id="recommendations"></div>
+        </div>
+
+        <div class="notice orange"><strong>Fair und fachlich sauber:</strong> Dieses Tool soll Gespräche erleichtern, nicht Menschen bewerten. Konfliktkosten sind ein Organisationssignal – kein persönlicher Pranger.</div>
+
+        <div class="button-row">
+          <button class="button ghost" type="button" data-prev="5">Eingaben ändern</button>
+          <button class="button primary" type="button" id="printBtn">Auswertung drucken / als PDF speichern</button>
+          <a class="button green" id="mailBtn" href="mailto:kontakt@as-courage.de?subject=Anfrage%20Konfliktkostenrechner%20as-courage">Beratung anfragen</a>
+          <button class="button danger" type="button" id="resetBtn">Zurücksetzen</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <section class="service-hub-note">
+    <span class="eyebrow">Idee für den künftigen Menüpunkt</span>
+    <h2 style="margin:0 0 8px;">Praxis-Tools statt einzelner Menüpunkt „Impulsfinder“</h2>
+    <p style="color:var(--muted);margin:0;">Der Impulsfinder wäre dann nicht mehr alleiniger Hauptmenüpunkt, sondern ein Tool innerhalb einer übersichtlichen Service-Seite mit mehreren kostenlosen Angeboten.</p>
+    <div class="tool-card-grid">
+      <a class="tool-card" href="impulsfinder.html"><strong>Impulsfinder</strong><span>Reflexionsfragen für Gespräch, Team und Selbstführung.</span></a>
+      <a class="tool-card" href="konfliktkostenrechner.html"><strong>Konfliktkostenrechner</strong><span>Konfliktfolgekosten sichtbar machen und Handlungsfelder erkennen.</span></a>
+      <a class="tool-card" href="konfliktkosten-quiz.html"><strong>Konfliktkosten-Quiz</strong><span>Niedrigschwelliger Einstieg in das Thema Konfliktkosten.</span></a>
+      <a class="tool-card" href="swot-tool.html"><strong>SWOT-Analyse-Tool</strong><span>Stärken, Schwächen, Chancen und Risiken strukturiert klären.</span></a>
+      <a class="tool-card" href="projektmanagement.html"><strong>Projektmanagement</strong><span>Erste Orientierung für Ziele, Rollen, Meilensteine und Risiken.</span></a>
+      <a class="tool-card" href="praxis-tools.html"><strong>Weitere Tools</strong><span>Platz für kommende Freebies und kleine App-Funktionen.</span></a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© as-courage · kostenlose Praxis-Tools für Führung, Zusammenarbeit und Reflexion</span>
+      <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="agb.html">AGB</a> · <a href="widerruf.html">Widerruf</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const state = {
+      currentStep: 1,
+      lastResult: null
+    };
+
+    const money = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const number = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 1 });
+
+    const ids = [
+      'employees','leaders','avgSalary','leaderSalary','personnelCosts','workdays','absenceDays','conflictAbsence','sickRate',
+      'leavers','conflictLeavers','replacementFactor','fluctuationRate','employeeTimeLoss','leaderTimeLoss','productivityLoss',
+      'hrHours','legalCases','legalCost','bullyingCases','bullyingCost','innerResignation','psychSafety','trainedLeaders','roleClarity',
+      'trainingCost','teamWorkshops','mediationCost','coachingCost','surveyCost','otherInvestment','savingPotential'
+    ];
+
+    function el(id) { return document.getElementById(id); }
+    function val(id) { return Number(el(id)?.value || 0); }
+    function pct(id) { return val(id) / 100; }
+
+    function updateSliderLabels() {
+      document.querySelectorAll('.slider-value[data-for]').forEach(label => {
+        const input = el(label.dataset.for);
+        if (!input) return;
+        const id = input.id;
+        if (id === 'psychSafety' || id === 'roleClarity') label.textContent = `${input.value} / 10`;
+        else label.textContent = `${input.value} %`;
+      });
+    }
+
+    function updatePersonnelCosts() {
+      const suggested = val('employees') * val('avgSalary');
+      const current = val('personnelCosts');
+      if (!current || Math.abs(current - suggested) < Math.max(100000, suggested * .20)) {
+        el('personnelCosts').value = Math.round(suggested);
+      }
+    }
+
+    function goStep(step) {
+      const target = Math.max(1, Math.min(6, Number(step)));
+      state.currentStep = target;
+
+      document.querySelectorAll('.step-panel').forEach(panel => panel.classList.remove('active'));
+      el(`step${target}`).classList.add('active');
+
+      document.querySelectorAll('.step-dot').forEach(dot => {
+        const dotStep = Number(dot.dataset.step);
+        dot.classList.toggle('active', dotStep === target);
+        dot.classList.toggle('done', dotStep < target);
+      });
+
+      el('progressBar').style.width = `${(target / 6) * 100}%`;
+      document.querySelector('.tool-shell').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function calculate() {
+      const employees = Math.max(1, val('employees'));
+      const leaders = Math.min(Math.max(0, val('leaders')), employees);
+      const staff = Math.max(0, employees - leaders);
+      const avgSalary = val('avgSalary');
+      const leaderSalary = val('leaderSalary');
+      const personnelCosts = val('personnelCosts') || employees * avgSalary;
+      const workdays = Math.max(1, val('workdays'));
+      const dayCost = avgSalary / workdays;
+
+      const absenceCostTotal = employees * val('absenceDays') * dayCost;
+      const absenceConflict = absenceCostTotal * pct('conflictAbsence');
+
+      const monthlySalary = avgSalary / 12;
+      const turnoverCost = val('leavers') * pct('conflictLeavers') * monthlySalary * val('replacementFactor');
+
+      const staffTimeLoss = staff * avgSalary * pct('employeeTimeLoss');
+      const leaderTimeLoss = leaders * leaderSalary * pct('leaderTimeLoss');
+      const productivityLoss = staff * avgSalary * pct('productivityLoss') * 0.5;
+      const innerResignation = employees * pct('innerResignation') * avgSalary * 0.35;
+      const legalCost = val('legalCases') * val('legalCost') + val('bullyingCases') * val('bullyingCost');
+      const hrCost = val('hrHours') * 55;
+      const structureCost = personnelCosts * 0.004;
+
+      const costs = [
+        { label: 'Konfliktbedingte Fehlzeiten', value: absenceConflict },
+        { label: 'Konfliktbedingte Fluktuation', value: turnoverCost },
+        { label: 'Zeitverlust Beschäftigte', value: staffTimeLoss },
+        { label: 'Zeitverlust Führungskräfte', value: leaderTimeLoss },
+        { label: 'Produktivitätsverlust', value: productivityLoss },
+        { label: 'Innere Kündigung / Demotivation', value: innerResignation },
+        { label: 'Bearbeitungs- und Rechtskosten', value: legalCost },
+        { label: 'HR-/Leitungsaufwand', value: hrCost },
+        { label: 'Sonstige Strukturfolgekosten', value: structureCost }
+      ];
+
+      const total = costs.reduce((sum, item) => sum + item.value, 0);
+      const investment = val('trainingCost') + val('teamWorkshops') + val('mediationCost') + val('coachingCost') + val('surveyCost') + val('otherInvestment');
+      const saving = total * pct('savingPotential');
+      const net = saving - investment;
+      const roi = investment > 0 ? ((saving - investment) / investment) * 100 : 0;
+      const amortisation = saving > 0 ? investment / (saving / 12) : 0;
+
+      state.lastResult = { employees, leaders, personnelCosts, costs, total, investment, saving, net, roi, amortisation };
+      renderResult();
+      goStep(6);
+    }
+
+    function renderResult() {
+      const result = state.lastResult;
+      if (!result) return;
+
+      el('totalCost').textContent = money.format(result.total);
+      el('resultContext').textContent = `Für ${number.format(result.employees)} Beschäftigte · geschätzter Anteil an Personalkosten: ${number.format((result.total / result.personnelCosts) * 100)} %`;
+      el('kpiCost').textContent = money.format(result.total);
+      el('kpiInvest').textContent = money.format(result.investment);
+      el('kpiSaving').textContent = money.format(result.saving);
+      el('kpiRoi').textContent = `${number.format(result.roi)} %`;
+
+      const table = el('costTable');
+      table.innerHTML = '';
+      result.costs.forEach(item => {
+        const share = result.total > 0 ? (item.value / result.total) * 100 : 0;
+        table.insertAdjacentHTML('beforeend', `<tr><td>${item.label}</td><td class="num text-red">${money.format(item.value)}</td><td class="num">${number.format(share)} %</td></tr>`);
+      });
+      table.insertAdjacentHTML('beforeend', `<tr><td><strong>Gesamt</strong></td><td class="num text-red"><strong>${money.format(result.total)}</strong></td><td class="num"><strong>100 %</strong></td></tr>`);
+
+      const max = Math.max(...result.costs.map(item => item.value), 1);
+      const bars = el('barList');
+      bars.innerHTML = '';
+      result.costs.forEach(item => {
+        const width = Math.max(2, (item.value / max) * 100);
+        const cls = item.value > result.total * .22 ? 'red' : item.value < result.total * .08 ? 'green' : '';
+        bars.insertAdjacentHTML('beforeend', `
+          <div>
+            <div class="bar-label"><span>${item.label}</span><strong>${money.format(item.value)}</strong></div>
+            <div class="bar-track"><div class="bar-fill ${cls}" style="width:${width}%"></div></div>
+          </div>`);
+      });
+
+      el('roiTable').innerHTML = `
+        <tr><td>Jährliche Konfliktkosten</td><td class="num text-red">${money.format(result.total)}</td></tr>
+        <tr><td>Geplante Investition pro Jahr</td><td class="num">${money.format(result.investment)}</td></tr>
+        <tr><td>Realistische Einsparung pro Jahr</td><td class="num text-green">${money.format(result.saving)}</td></tr>
+        <tr><td>Jährlicher Nettoeffekt</td><td class="num ${result.net >= 0 ? 'text-green' : 'text-red'}">${money.format(result.net)}</td></tr>
+        <tr><td>ROI-Schätzung</td><td class="num ${result.roi >= 0 ? 'text-green' : 'text-red'}">${number.format(result.roi)} %</td></tr>
+        <tr><td>Amortisationszeit nach Wirksamkeit</td><td class="num">${number.format(result.amortisation)} Monate</td></tr>
+        <tr><td>Kosten je beschäftigter Person / Jahr</td><td class="num">${money.format(result.total / result.employees)}</td></tr>`;
+
+      renderRecommendations();
+    }
+
+    function renderRecommendations() {
+      const recs = [];
+      if (!el('structure1').checked) recs.push('Leitlinien gegen Diskriminierung, Mobbing und Grenzverletzungen sichtbar machen.');
+      if (!el('structure2').checked) recs.push('Eine niedrigschwellige Ansprechperson für Konflikte benennen.');
+      if (val('trainedLeaders') < 60) recs.push('Führungskräfte im frühen, klaren und wertschätzenden Ansprechen von Konflikten stärken.');
+      if (val('psychSafety') < 7) recs.push('Psychologische Sicherheit verbessern: Fehler, Unsicherheiten und Kritik müssen ansprechbar sein.');
+      if (val('roleClarity') < 7) recs.push('Rollen, Zuständigkeiten und Entscheidungswege klären. Unklare Rollen sind Konflikt-Dünger.');
+      if (val('bullyingCases') > 0) recs.push('Eskalations- oder Mobbingfälle sofort sauber bearbeiten: Schutz, Dokumentation und klare Zuständigkeit.');
+      if (!el('structure5').checked) recs.push('Psychische Belastungen in der Gefährdungsbeurteilung mitdenken und nicht nur technisch-organisatorisch prüfen.');
+      if (recs.length === 0) recs.push('Die Grundstruktur wirkt solide. Sinnvoll wäre eine jährliche Wirksamkeitsprüfung mit Teamfeedback und wenigen klaren Kennzahlen.');
+
+      el('recommendations').innerHTML = recs.map(text => `<div class="recommendation">${text}</div>`).join('');
+    }
+
+    function resetTool() {
+      if (!confirm('Sollen alle Eingaben auf die Startwerte zurückgesetzt werden?')) return;
+      location.reload();
+    }
+
+    function init() {
+      document.querySelectorAll('[data-step]').forEach(btn => btn.addEventListener('click', () => goStep(btn.dataset.step)));
+      document.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', () => goStep(btn.dataset.next)));
+      document.querySelectorAll('[data-prev]').forEach(btn => btn.addEventListener('click', () => goStep(btn.dataset.prev)));
+
+      document.querySelectorAll('input[type="range"]').forEach(input => input.addEventListener('input', updateSliderLabels));
+      ['employees', 'avgSalary'].forEach(id => el(id).addEventListener('change', updatePersonnelCosts));
+      ids.forEach(id => el(id)?.addEventListener('change', () => { if (state.lastResult) renderResult(); }));
+
+      el('calculateBtn').addEventListener('click', calculate);
+      el('printBtn').addEventListener('click', () => window.print());
+      el('resetBtn').addEventListener('click', resetTool);
+      updateSliderLabels();
+      updatePersonnelCosts();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

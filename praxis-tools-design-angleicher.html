@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>as-courage · Praxis-Tools Design-Angleicher</title>
+<style>
+  :root{
+    --navy:#1f3a5f; --orange:#f7941d; --orange-dark:#d97100;
+    --cream:#f6efe5; --line:#e7dccd; --muted:#5c6470;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:40px 20px;
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--navy);
+    background:linear-gradient(180deg,#fffaf3,#f6efe5);
+  }
+  .wrap{
+    max-width:880px;margin:0 auto;background:#fff;border:1px solid var(--line);
+    border-radius:24px;padding:32px;box-shadow:0 18px 45px rgba(31,58,95,.10)
+  }
+  h1{margin:0 0 12px;font-size:34px;line-height:1.1}
+  p{color:var(--muted);line-height:1.6}
+  .box{
+    margin:24px 0;padding:22px;border:2px dashed #d8c8b5;border-radius:18px;background:#fffaf3
+  }
+  input{display:block;width:100%;margin-top:14px}
+  button{
+    border:0;border-radius:999px;padding:13px 20px;background:var(--orange);
+    color:#fff;font-weight:800;font-size:15px;cursor:pointer
+  }
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .status{margin-top:20px;padding:16px;border-radius:14px;background:#eef8e8;color:#275c17;display:none}
+  .note{font-size:13px}
+  code{background:#f5f1ec;padding:2px 5px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Praxis-Tools an as-courage anpassen</h1>
+  <p>
+    Dieses Hilfswerkzeug arbeitet ausschließlich lokal in deinem Browser.
+    Die ausgewählten HTML-Dateien werden nicht hochgeladen.
+  </p>
+
+  <div class="box">
+    <strong>1. Beide Originaldateien auswählen</strong>
+    <p class="note">
+      Erwartet werden <code>konfliktkostenrechner-praxis-tool.html</code>
+      und <code>konfliktkosten-quiz-praxis-tool.html</code>.
+    </p>
+    <input id="files" type="file" accept=".html,text/html" multiple>
+  </div>
+
+  <button id="run" disabled>Beide Dateien anpassen</button>
+
+  <div id="status" class="status"></div>
+</div>
+
+<script>
+const input = document.getElementById('files');
+const run = document.getElementById('run');
+const status = document.getElementById('status');
+
+input.addEventListener('change', () => {
+  run.disabled = input.files.length === 0;
+});
+
+const headerHtml = `
+<header class="as-site-header">
+  <div class="as-header-inner">
+    <a class="as-brand" href="index.html" aria-label="as-courage Startseite">
+      <img src="Bilder/Logo%20as-courage%20transparent.png"
+           alt="as-courage – Andreas Sedlag Kompetenztraining">
+    </a>
+
+    <nav class="as-main-nav" aria-label="Hauptnavigation">
+      <a href="index.html#start">Start</a>
+      <a href="wofuer-ich-stehe.html">Wofür ich stehe</a>
+      <a href="themen-formate.html">Themen &amp; Formate</a>
+      <a href="zielgruppen.html">Zielgruppen</a>
+      <a href="referenzen.html">Referenzen</a>
+      <a href="wissen-medien.html">Wissen &amp; Medien</a>
+      <a class="is-active" href="praxis-tools.html" aria-current="page">Praxis-Tools</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+
+    <a class="as-header-cta" href="index.html#kontakt">Gespräch anfragen</a>
+  </div>
+</header>`;
+
+const footerHtml = `
+<footer class="as-site-footer">
+  <div class="as-footer-inner">
+    <p>© 2026 Andreas Sedlag – as-courage · Hermannsburg</p>
+    <div class="as-footer-links">
+      <a href="referenzen.html">Referenzen</a>
+      <a href="index.html#kontakt">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>`;
+
+const overrideCss = `
+/* as-courage Designangleichung – lokal, ohne Google Fonts */
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Orange Schaltflächen wie auf as-courage.de */
+.button.primary,
+a.button.primary,
+button.button.primary {
+  background: #F29420 !important;
+  color: #ffffff !important;
+}
+.button.primary:hover,
+a.button.primary:hover,
+button.button.primary:hover {
+  background: #d87f10 !important;
+  color: #ffffff !important;
+}
+
+/* Orange Fortschritts-/Aktivpunkte ebenfalls mit weißer Schrift */
+.step-dot.active,
+.step-dot:hover {
+  color: #ffffff !important;
+}
+
+/* Website-Header */
+.as-site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.97);
+  border-bottom:1px solid rgba(31,58,95,.10);
+  backdrop-filter:blur(12px);
+}
+.as-header-inner{
+  max-width:1180px;
+  min-height:80px;
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+.as-brand{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+  text-decoration:none;
+}
+.as-brand img{
+  display:block;
+  width:170px;
+  max-height:58px;
+  object-fit:contain;
+}
+.as-main-nav{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  margin-left:auto;
+  white-space:nowrap;
+}
+.as-main-nav a{
+  color:#1f3a5f;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  padding:28px 0 24px;
+  border-bottom:3px solid transparent;
+}
+.as-main-nav a:hover,
+.as-main-nav a.is-active{
+  color:#c64f16;
+  border-bottom-color:#c64f16;
+}
+.as-header-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#F29420;
+  color:#ffffff !important;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:800;
+  padding:13px 18px;
+  border-radius:999px;
+  white-space:nowrap;
+  box-shadow:0 10px 24px rgba(242,148,32,.18);
+}
+.as-header-cta:hover{background:#d87f10}
+
+/* Website-Footer */
+.as-site-footer{
+  background:#10253f !important;
+  color:#ffffff !important;
+  border:0 !important;
+  padding:0 20px !important;
+}
+.as-footer-inner{
+  max-width:1180px;
+  min-height:105px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  font-size:14px;
+}
+.as-footer-inner p{color:#ffffff !important;margin:0}
+.as-footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.as-footer-links a{color:#ffffff !important;text-decoration:none}
+
+/* Kein Versalien-Zwang für normale Karteninhalte */
+.choice-card,
+.choice-card strong,
+.choice-card span {
+  text-transform:none !important;
+  letter-spacing:normal;
+}
+
+@media(max-width:1080px){
+  .as-header-inner{align-items:flex-start;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+  .as-main-nav{order:3;width:100%;margin-left:0;gap:14px;flex-wrap:wrap}
+  .as-main-nav a{padding:8px 0}
+  .as-header-cta{margin-left:auto}
+}
+@media(max-width:700px){
+  .as-header-cta{display:none}
+  .as-brand img{width:145px}
+  .as-main-nav{gap:12px}
+  .as-main-nav a{font-size:13px}
+}
+`;
+
+function addFavicon(doc) {
+  doc.querySelectorAll('link[href*="fonts.googleapis.com"], link[href*="fonts.gstatic.com"]').forEach(el => el.remove());
+
+  if (!doc.querySelector('link[rel~="icon"]')) {
+    const icon = doc.createElement('link');
+    icon.setAttribute('rel','icon');
+    icon.setAttribute('type','image/jpeg');
+    icon.setAttribute('href','Bilder/signet.jpg');
+    doc.head.appendChild(icon);
+  }
+}
+
+function replaceHeader(doc) {
+  const oldHeader = doc.querySelector('header.site-header, header');
+  if (oldHeader) oldHeader.remove();
+
+  const holder = doc.createElement('div');
+  holder.innerHTML = headerHtml.trim();
+  doc.body.insertBefore(holder.firstElementChild, doc.body.firstChild);
+}
+
+function removeOldAccountBlock(doc) {
+  doc.querySelectorAll('.access-card').forEach(card => {
+    const strip = card.closest('.strip');
+    if (strip) strip.remove();
+    else card.remove();
+  });
+}
+
+function removeOldToolHub(doc) {
+  doc.querySelectorAll('.service-hub-note').forEach(el => el.remove());
+}
+
+function replaceFooter(doc) {
+  const oldFooter = doc.querySelector('footer');
+  if (oldFooter) oldFooter.remove();
+
+  const holder = doc.createElement('div');
+  holder.innerHTML = footerHtml.trim();
+
+  const firstScript = doc.body.querySelector('script');
+  if (firstScript) doc.body.insertBefore(holder.firstElementChild, firstScript);
+  else doc.body.appendChild(holder.firstElementChild);
+}
+
+function fixLinks(doc) {
+  doc.querySelectorAll('a[href="kontakt.html"]').forEach(a => a.setAttribute('href','index.html#kontakt'));
+}
+
+function injectCss(doc) {
+  const old = doc.getElementById('as-courage-design-override');
+  if (old) old.remove();
+
+  const style = doc.createElement('style');
+  style.id = 'as-courage-design-override';
+  style.textContent = overrideCss;
+  doc.head.appendChild(style);
+}
+
+function transform(text) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(text, 'text/html');
+
+  addFavicon(doc);
+  replaceHeader(doc);
+  removeOldAccountBlock(doc);
+  removeOldToolHub(doc);
+  replaceFooter(doc);
+  fixLinks(doc);
+  injectCss(doc);
+
+  return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+}
+
+function downloadText(name, text) {
+  const blob = new Blob([text], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+run.addEventListener('click', async () => {
+  const files = [...input.files];
+  const wanted = files.filter(f =>
+    f.name === 'konfliktkostenrechner-praxis-tool.html' ||
+    f.name === 'konfliktkosten-quiz-praxis-tool.html'
+  );
+
+  if (!wanted.length) {
+    status.style.display = 'block';
+    status.textContent = 'Bitte wähle die beiden Original-HTML-Dateien aus.';
+    return;
+  }
+
+  const done = [];
+  for (const file of wanted) {
+    const text = await file.text();
+    const result = transform(text);
+    const outName = file.name.replace(/\.html$/i,'-NEU.html');
+    downloadText(outName, result);
+    done.push(outName);
+  }
+
+  status.style.display = 'block';
+  status.innerHTML =
+    '<strong>Fertig.</strong><br>' +
+    done.join('<br>') +
+    '<br><br>Die Originaldateien wurden nicht verändert.';
+});
+</script>
+</body>
+</html>

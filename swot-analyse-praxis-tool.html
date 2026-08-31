@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SWOT-Analyse – Schritt für Schritt zu mehr Klarheit | as-courage</title>
+  <meta name="description" content="Kostenloses SWOT-Praxis-Tool von as-courage: Stärken, Schwächen, Chancen und Risiken strukturiert analysieren, priorisieren und optional mit TOWS in Handlungsoptionen übersetzen.">
+  <link rel="icon" type="image/jpeg" href="Bilder/signet.jpg">
+
+  <style>
+    :root{
+      --navy:#1f3a5f;
+      --navy-dark:#162d4b;
+      --orange:#f7941d;
+      --orange-dark:#d97100;
+      --cream:#f6efe5;
+      --cream-2:#fff8ef;
+      --white:#ffffff;
+      --text:#1f3a5f;
+      --muted:#5c6470;
+      --line:#e7dccd;
+      --green:#4ea72e;
+      --green-dark:#3f8b25;
+      --green-soft:#eef8e8;
+      --blue:#245eaa;
+      --blue-soft:#edf4ff;
+      --red:#b8392e;
+      --red-soft:#fdecea;
+      --shadow:0 18px 45px rgba(31,58,95,.10);
+      --shadow-soft:0 10px 28px rgba(31,58,95,.07);
+      --radius:24px;
+      --radius-sm:16px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#fffaf3 0%,#f5eee5 55%,#fffdf9 100%);
+      line-height:1.55;
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    button,a.button,.step-dot,.choice-card{cursor:pointer}
+    button,input,textarea,select{font-family:inherit}
+
+    /* Header wie as-courage.de */
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,.97);
+      border-bottom:1px solid rgba(31,58,95,.10);
+      backdrop-filter:blur(12px);
+    }
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+    .header-inner{
+      min-height:80px;
+      display:flex;
+      align-items:center;
+      gap:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      flex:0 0 auto;
+    }
+    .brand img{
+      display:block;
+      width:170px;
+      max-height:58px;
+      object-fit:contain;
+    }
+    .main-nav{
+      display:flex;
+      align-items:center;
+      gap:22px;
+      margin-left:auto;
+      white-space:nowrap;
+    }
+    .main-nav a{
+      color:var(--navy);
+      font-size:14px;
+      font-weight:700;
+      padding:28px 0 24px;
+      border-bottom:3px solid transparent;
+      transition:.16s ease;
+    }
+    .main-nav a:hover,
+    .main-nav a.is-active{
+      color:#c64f16;
+      border-bottom-color:#c64f16;
+    }
+    .header-cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--orange);
+      color:#fff;
+      font-size:14px;
+      font-weight:800;
+      padding:13px 18px;
+      border-radius:999px;
+      white-space:nowrap;
+      box-shadow:0 10px 24px rgba(247,148,29,.18);
+    }
+    .header-cta:hover{background:var(--orange-dark)}
+
+    /* Hero */
+    .hero{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:70px 20px 30px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:34px;
+      align-items:stretch;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      padding:7px 11px;
+      border-radius:999px;
+      background:var(--cream-2);
+      border:1px solid rgba(247,148,29,.34);
+      color:#a14f00;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      margin-bottom:16px;
+    }
+    h1,h2,h3,h4{color:var(--navy-dark)}
+    .hero h1{
+      margin:0;
+      font-size:clamp(40px,5vw,62px);
+      line-height:1.03;
+      letter-spacing:-.035em;
+      font-weight:800;
+    }
+    .lead{
+      margin:20px 0 0;
+      font-size:clamp(17px,2vw,20px);
+      color:var(--muted);
+      max-width:760px;
+    }
+    .hero-actions,.button-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:25px;
+    }
+
+    .button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:46px;
+      padding:13px 19px;
+      border:0;
+      border-radius:999px;
+      font-size:15px;
+      font-weight:800;
+      transition:.16s ease;
+    }
+    .button:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(31,58,95,.14)}
+    .button.primary{background:var(--orange);color:#fff !important}
+    .button.primary:hover{background:var(--orange-dark);color:#fff !important}
+    .button.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    .button.green{background:var(--green);color:#fff}
+    .button.green:hover{background:var(--green-dark)}
+    .button.blue{background:var(--blue);color:#fff}
+    .button.danger{background:var(--red-soft);color:var(--red);border:1px solid rgba(184,57,46,.18)}
+    .button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+    .hero-card,.privacy-card,.tool-shell,.method-card{
+      background:rgba(255,255,255,.93);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .hero-card{
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+    .hero-card h2{margin:0;font-size:22px}
+    .mini-list{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+    .mini-list li{
+      display:grid;
+      grid-template-columns:28px 1fr;
+      gap:10px;
+      align-items:start;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .check{
+      width:26px;height:26px;border-radius:9px;
+      background:var(--green-soft);color:var(--green-dark);
+      display:grid;place-items:center;font-weight:900;
+    }
+
+    .notice{
+      border-radius:var(--radius-sm);
+      padding:14px 16px;
+      margin:14px 0;
+      background:var(--blue-soft);
+      border:1px solid rgba(36,94,170,.16);
+      color:#183f73;
+      font-size:14px;
+    }
+    .notice.orange{background:var(--cream-2);border-color:rgba(247,148,29,.30);color:#7b4708}
+    .notice.green{background:var(--green-soft);border-color:rgba(78,167,46,.22);color:#275c17}
+    .notice.red{background:var(--red-soft);border-color:rgba(184,57,46,.18);color:#7b251f}
+
+    .strip{max-width:var(--max);margin:0 auto;padding:0 20px 30px}
+    .privacy-card{
+      padding:20px 22px;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:15px;
+      align-items:start;
+    }
+    .privacy-icon{
+      width:44px;height:44px;border-radius:14px;
+      background:var(--green-soft);display:grid;place-items:center;font-size:22px;
+    }
+    .privacy-card strong{display:block;margin-bottom:4px;color:var(--navy-dark)}
+    .privacy-card p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Tool */
+    .tool-shell{
+      max-width:var(--max);
+      margin:0 auto 48px;
+      overflow:hidden;
+    }
+    .tool-top{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:18px;
+      align-items:center;
+      padding:22px 24px;
+      background:linear-gradient(135deg,#1a2344,#35416d);
+      color:#fff;
+    }
+    .tool-top h2{margin:0;color:#fff;font-size:21px}
+    .tool-top p{margin:4px 0 0;color:rgba(255,255,255,.76);font-size:14px}
+    .step-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .step-dot{
+      width:36px;height:36px;border-radius:999px;
+      border:2px solid rgba(255,255,255,.32);
+      background:transparent;color:rgba(255,255,255,.82);
+      font-weight:850;transition:.16s ease;
+    }
+    .step-dot:hover,.step-dot.active{
+      background:var(--orange);border-color:var(--orange);color:#fff;transform:translateY(-1px)
+    }
+    .step-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+    .progress{height:5px;background:rgba(31,58,95,.12)}
+    .progress span{
+      display:block;width:10%;height:100%;
+      background:linear-gradient(90deg,var(--orange),var(--green));
+      transition:width .25s ease;
+    }
+    .tool-body{padding:26px}
+    .step-panel{display:none;animation:fadeUp .22s ease}
+    .step-panel.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    .step-header{
+      background:var(--cream-2);
+      border:1px solid rgba(247,148,29,.26);
+      border-left:7px solid var(--orange);
+      border-radius:var(--radius-sm);
+      padding:20px;
+      margin-bottom:18px;
+    }
+    .step-header.green{background:var(--green-soft);border-color:rgba(78,167,46,.24);border-left-color:var(--green)}
+    .step-header.blue{background:var(--blue-soft);border-color:rgba(36,94,170,.20);border-left-color:var(--blue)}
+    .step-header.red{background:var(--red-soft);border-color:rgba(184,57,46,.18);border-left-color:var(--red)}
+    .step-header .tag{
+      font-size:12px;text-transform:uppercase;letter-spacing:.12em;
+      color:#9a5608;font-weight:900;margin-bottom:5px;
+    }
+    .step-header.green .tag{color:var(--green-dark)}
+    .step-header.blue .tag{color:var(--blue)}
+    .step-header.red .tag{color:var(--red)}
+    .step-header h3{margin:0;font-size:24px}
+    .step-header p{margin:8px 0 0;color:var(--muted)}
+
+    .grid-2,.grid-3,.grid-4{display:grid;gap:15px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);
+      padding:19px;margin-bottom:15px;box-shadow:var(--shadow-soft)
+    }
+    .card h4{margin:0 0 14px;font-size:17px}
+    .field{display:grid;gap:6px}
+    .field+.field{margin-top:15px}
+    label,.field-label{
+      font-size:12px;color:var(--muted);font-weight:800;
+      letter-spacing:.04em;text-transform:uppercase
+    }
+    input[type="text"],textarea,select{
+      width:100%;border:2px solid var(--line);border-radius:12px;
+      padding:11px 12px;color:var(--navy-dark);background:#fff;
+      font:inherit;font-weight:600;transition:.16s ease;
+    }
+    textarea{min-height:104px;resize:vertical}
+    input::placeholder,
+    textarea::placeholder{
+      font-family:inherit;
+      font-size:inherit;
+      font-weight:400;
+      color:#7a8190;
+      opacity:1;
+    }
+    input:focus,textarea:focus,select:focus{
+      outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(247,148,29,.12)
+    }
+    .hint,.small{color:var(--muted);font-size:13px}
+    .error{color:var(--red);font-size:13px;font-weight:750;margin-top:8px;display:none}
+    .error.show{display:block}
+
+    .choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .choice-card{
+      position:relative;border:2px solid var(--line);background:#fff;
+      border-radius:15px;padding:17px;min-height:112px;transition:.16s ease;
+    }
+    .choice-card:hover{transform:translateY(-2px);border-color:rgba(247,148,29,.58);box-shadow:var(--shadow-soft)}
+    .choice-card input{position:absolute;opacity:0;pointer-events:none}
+    .choice-card.selected{border-color:var(--orange);background:var(--cream-2);box-shadow:0 0 0 3px rgba(247,148,29,.10)}
+    .choice-card{
+      text-transform:none !important;
+    }
+    .choice-card strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--navy-dark);
+      text-transform:none !important;
+      font-weight:700;
+      letter-spacing:normal;
+    }
+    .choice-card span{
+      color:var(--muted);
+      font-size:13px;
+      text-transform:none !important;
+      font-weight:400;
+      letter-spacing:normal;
+    }
+
+    .factor-list{display:grid;gap:10px;margin-top:12px}
+    .factor-row{
+      display:grid;grid-template-columns:minmax(0,1fr) 180px 42px;
+      gap:10px;align-items:start;padding:12px;border:1px solid var(--line);
+      border-radius:13px;background:#fffdf9
+    }
+    .remove-factor{
+      width:42px;height:42px;border:0;border-radius:12px;
+      background:var(--red-soft);color:var(--red);font-weight:900;font-size:18px
+    }
+    .factor-help{margin-top:10px;color:var(--muted);font-size:13px}
+
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .quad{
+      border-radius:18px;padding:18px;min-height:220px;
+      border:1px solid var(--line);box-shadow:var(--shadow-soft)
+    }
+    .quad h4{margin:0 0 4px;font-size:18px}
+    .quad .meta{font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+    .quad ul{margin:0;padding-left:20px}
+    .quad li{margin:7px 0}
+    .quad-strength{background:var(--green-soft);border-top:6px solid var(--green)}
+    .quad-strength .meta{color:var(--green-dark)}
+    .quad-weakness{background:var(--cream-2);border-top:6px solid var(--orange)}
+    .quad-weakness .meta{color:#8a4b00}
+    .quad-opportunity{background:var(--blue-soft);border-top:6px solid var(--blue)}
+    .quad-opportunity .meta{color:var(--blue)}
+    .quad-risk{background:var(--red-soft);border-top:6px solid var(--red)}
+    .quad-risk .meta{color:var(--red)}
+
+    .priority-list{display:grid;gap:10px}
+    .priority-row{
+      display:grid;grid-template-columns:130px 1fr 160px;gap:10px;
+      align-items:center;padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff
+    }
+    .priority-tag{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+    .tag-s{color:var(--green-dark)}.tag-w{color:#8a4b00}.tag-o{color:var(--blue)}.tag-t{color:var(--red)}
+
+    .result-hero{
+      border-radius:var(--radius);padding:28px;color:#fff;
+      background:linear-gradient(135deg,#18233f,#35416d);
+      box-shadow:var(--shadow);margin-bottom:16px
+    }
+    .result-hero .label{color:rgba(255,255,255,.74);font-weight:800}
+    .result-hero h3{font-size:clamp(28px,4vw,42px);line-height:1.06;color:var(--orange);margin:8px 0 12px}
+    .result-hero p{margin:0;color:rgba(255,255,255,.82)}
+
+    .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+    .summary-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .summary-card strong{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+    .summary-card span{font-weight:700}
+
+    .tows-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .tows-card{border:1px solid var(--line);border-radius:15px;padding:15px;background:#fff}
+    .tows-card h4{margin:0 0 4px}
+    .tows-card p{color:var(--muted);font-size:13px;margin:0 0 10px}
+    .tows-card textarea{min-height:120px}
+
+    .download-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .download-card{
+      background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;
+      display:flex;flex-direction:column;gap:8px
+    }
+    .download-card strong{font-size:16px}
+    .download-card span{font-size:13px;color:var(--muted);flex:1}
+    .download-card .button{width:100%;margin-top:6px}
+
+    .method-card{
+      max-width:var(--max);margin:0 auto 58px;padding:26px
+    }
+    .method-card h2{margin:0 0 8px;font-size:30px}
+    .method-card p{color:var(--muted)}
+    .method-card details{border-top:1px solid var(--line);padding-top:13px;margin-top:13px}
+    .method-card summary{font-weight:800;cursor:pointer}
+    .sources{font-size:13px;color:var(--muted);padding-left:20px}
+    .sources li{margin:8px 0}
+    .sources a{text-decoration:underline;text-underline-offset:2px}
+
+    .site-footer{
+      background:#10253f;color:#fff;padding:0 20px
+    }
+    .footer-inner{
+      max-width:var(--max);min-height:105px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:20px;flex-wrap:wrap;font-size:14px
+    }
+    .footer-links{display:flex;gap:18px;flex-wrap:wrap}
+    .footer-links a{color:#fff}
+    .hidden{display:none!important}
+    .print-only{display:none}
+
+    @media(max-width:1080px){
+      .header-inner{align-items:flex-start;padding:14px 0;flex-wrap:wrap}
+      .main-nav{order:3;width:100%;margin-left:0;gap:14px;flex-wrap:wrap}
+      .main-nav a{padding:8px 0}
+      .header-cta{margin-left:auto}
+    }
+    @media(max-width:920px){
+      .hero{grid-template-columns:1fr;padding-top:45px}
+      .tool-top{grid-template-columns:1fr}
+      .step-nav{justify-content:flex-start}
+      .choice-grid{grid-template-columns:1fr 1fr}
+      .download-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:700px){
+      .header-cta{display:none}
+      .brand img{width:145px}
+      .main-nav{gap:12px}
+      .main-nav a{font-size:13px}
+      .hero{padding-inline:14px}
+      .strip{padding-inline:14px}
+      .tool-shell,.method-card{margin-inline:10px}
+      .tool-body,.tool-top{padding:16px}
+      .grid-2,.grid-3,.grid-4,.choice-grid,.swot-grid,.summary-grid,.tows-grid,.download-grid{grid-template-columns:1fr}
+      .button-row{align-items:stretch}
+      .button{width:100%}
+      .factor-row,.priority-row{grid-template-columns:1fr}
+      .remove-factor{width:100%}
+      .privacy-card{grid-template-columns:1fr}
+      .result-hero{padding:20px}
+    }
+    @media print{
+      .site-header,.hero,.strip,.tool-top,.progress,.button-row,.method-card,.site-footer,.download-grid,.tows-choice{display:none!important}
+      body{background:#fff}
+      .tool-shell{box-shadow:none;border:0;margin:0}
+      .tool-body{padding:0}
+      .step-panel{display:none!important}
+      #step10{display:block!important}
+      .print-only{display:block}
+      .quad,.card{break-inside:avoid;box-shadow:none}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="as-courage Startseite">
+        <img
+          src="Bilder/Logo%20as-courage%20transparent.png"
+          alt="as-courage – Andreas Sedlag Kompetenztraining">
+      </a>
+
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="index.html#start">Start</a>
+        <a href="wofuer-ich-stehe.html">Wofür ich stehe</a>
+        <a href="themen-formate.html">Themen &amp; Formate</a>
+        <a href="zielgruppen.html">Zielgruppen</a>
+        <a href="referenzen.html">Referenzen</a>
+        <a href="wissen-medien.html">Wissen &amp; Medien</a>
+        <a class="is-active" href="praxis-tools.html" aria-current="page">Praxis-Tools</a>
+        <a href="index.html#kontakt">Kontakt</a>
+      </nav>
+
+      <a class="header-cta" href="index.html#kontakt">Gespräch anfragen</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Kostenloses Praxis-Tool · strukturiert analysieren</span>
+      <h1>SWOT-Analyse – Schritt für Schritt zu mehr Klarheit</h1>
+      <p class="lead">
+        Betrachte ein Vorhaben, eine Entscheidung oder eine Situation systematisch:
+        interne Stärken und Schwächen, externe Chancen und Risiken – anschließend priorisiert
+        und auf Wunsch mit TOWS in Handlungsoptionen übersetzt.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#tool">Analyse starten</a>
+        <a class="button ghost" href="#methodik">Was ist SWOT?</a>
+      </div>
+    </div>
+
+    <aside class="hero-card" aria-label="Wofür das SWOT-Tool gedacht ist">
+      <h2>Wofür ist das Tool gut?</h2>
+      <ul class="mini-list">
+        <li><span class="check">✓</span><span>Es führt dich Schritt für Schritt durch eine vollständige SWOT-Analyse.</span></li>
+        <li><span class="check">✓</span><span>Es trennt interne und externe Faktoren und hilft, vage Aussagen zu konkretisieren.</span></li>
+        <li><span class="check">✓</span><span>Es erstellt am Ende eine Vier-Quadranten-Matrix und mehrere exportierbare Ergebnisformate.</span></li>
+      </ul>
+      <div class="notice orange">
+        <strong>Wichtig:</strong> Die Qualität der Analyse hängt von den eingegebenen Informationen
+        und Einschätzungen ab. Das Tool schafft Struktur – keine Scheinsicherheit.
+      </div>
+    </aside>
+  </section>
+
+  <div class="strip">
+    <section class="privacy-card" aria-label="Datenschutzhinweis">
+      <div class="privacy-icon">🔒</div>
+      <div>
+        <strong>Deine Inhalte bleiben in deinem Browser.</strong>
+        <p>
+          Die eingegebenen Inhalte werden von diesem Tool nicht an as-courage oder einen KI-Dienst übertragen.
+          Die Analyse läuft lokal im Browser. Beim Neuladen der Seite gehen nicht exportierte Eingaben verloren.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <main id="tool" class="tool-shell" aria-label="SWOT-Analyse Praxis-Tool">
+    <div class="tool-top">
+      <div>
+        <h2>Deine SWOT-Analyse</h2>
+        <p>Neun Arbeitsschritte plus Ergebnis. Du kannst jederzeit zu bereits bearbeiteten Schritten zurückgehen.</p>
+      </div>
+      <div class="step-nav" aria-label="Schritt-Navigation">
+        <button class="step-dot active" type="button" data-step="1">1</button>
+        <button class="step-dot" type="button" data-step="2">2</button>
+        <button class="step-dot" type="button" data-step="3">3</button>
+        <button class="step-dot" type="button" data-step="4">4</button>
+        <button class="step-dot" type="button" data-step="5">5</button>
+        <button class="step-dot" type="button" data-step="6">6</button>
+        <button class="step-dot" type="button" data-step="7">7</button>
+        <button class="step-dot" type="button" data-step="8">8</button>
+        <button class="step-dot" type="button" data-step="9">9</button>
+        <button class="step-dot" type="button" data-step="10">✓</button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+    <div class="tool-body">
+      <section class="step-panel active" id="step1">
+        <div class="step-header">
+          <div class="tag">Schritt 1 von 9 · Kontext</div>
+          <h3>In welchem Bereich findet deine Analyse statt?</h3>
+          <p>Der Kontext beeinflusst, was als intern oder extern gilt. Wähle den Bereich, der am besten passt.</p>
+        </div>
+        <div class="choice-grid" id="contextChoices">
+          <label class="choice-card"><input type="radio" name="context" value="Beruf, Arbeit & Karriere"><strong>Beruf, Arbeit & Karriere</strong><span>Rolle, Wechsel, Entwicklung, Zusammenarbeit oder berufliche Entscheidung</span></label>
+          <label class="choice-card"><input type="radio" name="context" value="Unternehmen & Organisationen"><strong>Unternehmen & Organisationen</strong><span>Strategie, Angebot, Struktur, Team, Produkt oder Organisationsentwicklung</span></label>
+          <label class="choice-card"><input type="radio" name="context" value="Privates & Persönliches"><strong>Privates & Persönliches</strong><span>Persönliches Vorhaben, Lebensentscheidung, Entwicklung oder Veränderung</span></label>
+          <label class="choice-card"><input type="radio" name="context" value="Ehrenamt & Vereine"><strong>Ehrenamt & Vereine</strong><span>Vereinsarbeit, Projekt, Engagement, Angebot oder gemeinschaftliches Vorhaben</span></label>
+          <label class="choice-card"><input type="radio" name="context" value="Bildung, Weiterbildung & Fortbildung"><strong>Bildung, Weiterbildung & Fortbildung</strong><span>Lernvorhaben, Bildungsangebot, Seminar, Qualifizierung oder Entwicklung</span></label>
+          <label class="choice-card"><input type="radio" name="context" value="Sonstiges"><strong>Sonstiges</strong><span>Alles, was nicht sinnvoll in die anderen Bereiche passt</span></label>
+        </div>
+        <div class="error" id="err1">Bitte wähle einen Kontext aus.</div>
+        <div class="button-row"><button class="button primary" type="button" data-next="2">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step2">
+        <div class="step-header">
+          <div class="tag">Schritt 2 von 9 · Analysegegenstand &amp; Fragestellung</div>
+          <h3>Was genau möchtest du untersuchen?</h3>
+          <p>Je klarer die Fragestellung, desto aussagekräftiger wird die SWOT-Analyse.</p>
+        </div>
+        <div class="card">
+          <div class="field"><label for="analysisTitle">Kurztitel deiner Analyse</label><input id="analysisTitle" type="text" placeholder="z. B. Neue Sitzbank am Vereinsgelände"></div>
+          <div class="field"><label for="subject">Analysegegenstand</label><textarea id="subject" placeholder="Beschreibe kurz, welche Situation, welches Projekt, Vorhaben, Angebot, Produkt oder welche Entscheidung du analysieren möchtest."></textarea></div>
+          <div class="field"><label for="question">Zentrale Fragestellung</label><textarea id="question" placeholder="Formuliere möglichst konkret, was du mit der SWOT-Analyse herausfinden möchtest."></textarea></div>
+          <div class="field"><label for="goal">Ziel der Analyse</label><textarea id="goal" placeholder="Was möchtest du nach der Analyse besser einschätzen, verstehen oder entscheiden können?"></textarea></div>
+          <div class="error" id="err2">Bitte fülle Analysegegenstand, Fragestellung und Ziel aus.</div>
+        </div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="1">Zurück</button><button class="button primary" type="button" data-next="3">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step3">
+        <div class="step-header">
+          <div class="tag">Schritt 3 von 9 · Ausgangslage</div>
+          <h3>Was ist für die Analyse bereits wichtig?</h3>
+          <p>Trenne bekannte Fakten möglichst von Einschätzungen und offenen Punkten.</p>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="field"><label for="facts">Fakten &amp; Rahmenbedingungen</label><textarea id="facts" placeholder="Was ist bekannt? Welche Ressourcen, Regeln, Termine oder Bedingungen spielen eine Rolle?"></textarea></div></div>
+          <div class="card"><div class="field"><label for="assumptions">Einschätzungen, Annahmen &amp; offene Fragen</label><textarea id="assumptions" placeholder="Was vermutest du? Was ist noch unklar oder müsste geprüft werden?"></textarea></div></div>
+        </div>
+        <div class="notice"><strong>Tipp:</strong> Wenn du eine Aussage nicht sicher belegen kannst, markiere sie als Einschätzung, Vermutung oder noch zu prüfen.</div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="2">Zurück</button><button class="button primary" type="button" data-next="4">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step4">
+        <div class="step-header green">
+          <div class="tag">Schritt 4 von 9 · Stärken</div>
+          <h3>Welche internen Faktoren helfen?</h3>
+          <p>Stärken gehören zum betrachteten Vorhaben, zur Person oder Organisation selbst.</p>
+        </div>
+        <div class="card">
+          <h4>Denkanstöße</h4>
+          <div class="grid-2"><div class="notice green">Welche Fähigkeiten, Erfahrungen, Ressourcen, Kontakte oder Strukturen sind hilfreich?</div><div class="notice green">Was funktioniert bereits gut? Worin liegt ein Vorteil gegenüber Alternativen?</div></div>
+          <div id="strengthFactors" class="factor-list"></div>
+          <button class="button green" type="button" data-add="strength">+ Stärke hinzufügen</button>
+          <div class="factor-help">Prüfe bei jeder Stärke: Woran zeigt sie sich konkret?</div>
+          <div class="error" id="err4">Bitte trage mindestens eine Stärke ein.</div>
+        </div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="3">Zurück</button><button class="button primary" type="button" data-next="5">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step5">
+        <div class="step-header">
+          <div class="tag">Schritt 5 von 9 · Schwächen</div>
+          <h3>Welche internen Faktoren erschweren das Vorhaben?</h3>
+          <p>Schwächen sind interne Begrenzungen, fehlende Ressourcen oder ungünstige Strukturen.</p>
+        </div>
+        <div class="card">
+          <h4>Denkanstöße</h4>
+          <div class="grid-2"><div class="notice orange">Wo fehlen Zeit, Wissen, Geld, Erfahrung, Klarheit oder Zuständigkeiten?</div><div class="notice orange">Was ist intern schwerfällig, unsicher oder abhängig von einzelnen Personen?</div></div>
+          <div id="weaknessFactors" class="factor-list"></div>
+          <button class="button primary" type="button" data-add="weakness">+ Schwäche hinzufügen</button>
+          <div class="factor-help">Prüfe: Ist der Punkt wirklich intern und konkret genug?</div>
+          <div class="error" id="err5">Bitte trage mindestens eine Schwäche ein.</div>
+        </div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="4">Zurück</button><button class="button primary" type="button" data-next="6">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step6">
+        <div class="step-header blue">
+          <div class="tag">Schritt 6 von 9 · Chancen</div>
+          <h3>Welche externen Entwicklungen könnten helfen?</h3>
+          <p>Chancen kommen aus dem Umfeld und können erkannt und genutzt werden.</p>
+        </div>
+        <div class="card">
+          <h4>Denkanstöße</h4>
+          <div class="grid-2"><div class="notice">Welche gesellschaftlichen, technischen, politischen oder lokalen Entwicklungen sind günstig?</div><div class="notice">Welche Kooperationen, Fördermöglichkeiten, Trends oder neuen Bedarfe könnten helfen?</div></div>
+          <div id="opportunityFactors" class="factor-list"></div>
+          <button class="button blue" type="button" data-add="opportunity">+ Chance hinzufügen</button>
+          <div class="factor-help">Prüfe: Ist die Chance wirklich extern und plausibel?</div>
+          <div class="error" id="err6">Bitte trage mindestens eine Chance ein.</div>
+        </div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="5">Zurück</button><button class="button primary" type="button" data-next="7">Weiter</button></div>
+      </section>
+
+      <section class="step-panel" id="step7">
+        <div class="step-header red">
+          <div class="tag">Schritt 7 von 9 · Risiken</div>
+          <h3>Welche externen Faktoren könnten das Vorhaben erschweren?</h3>
+          <p>Risiken entstehen aus dem Umfeld und sind nicht oder nur begrenzt direkt beeinflussbar.</p>
+        </div>
+        <div class="card">
+          <h4>Denkanstöße</h4>
+          <div class="grid-2"><div class="notice red">Welche rechtlichen, finanziellen, gesellschaftlichen, technischen oder zeitlichen Entwicklungen könnten problematisch werden?</div><div class="notice red">Von welchen externen Entscheidungen, Genehmigungen oder Partner*innen hängt das Vorhaben ab?</div></div>
+          <div id="riskFactors" class="factor-list"></div>
+          <button class="button danger" type="button" data-add="risk">+ Risiko hinzufügen</button>
+          <div class="factor-help">Prüfe: Ist das Risiko wirklich extern?</div>
+          <div class="error" id="err7">Bitte trage mindestens ein Risiko ein.</div>
+        </div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="6">Zurück</button><button class="button green" type="button" id="buildMatrixBtn">SWOT-Matrix erstellen</button></div>
+      </section>
+
+      <section class="step-panel" id="step8">
+        <div class="step-header green">
+          <div class="tag">Schritt 8 von 9 · SWOT-Matrix</div>
+          <h3>Deine Vier-Quadranten-Matrix</h3>
+          <p>Prüfe die Zuordnung sorgfältig. Intern oder extern? Hilfreich oder hinderlich?</p>
+        </div>
+        <div id="matrixPreview" class="swot-grid"></div>
+        <div class="notice orange"><strong>Prüffrage:</strong> Ist die Matrix vollständig und richtig eingeordnet?</div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="7">Zurück und ändern</button><button class="button primary" type="button" id="confirmMatrixBtn">Matrix bestätigen &amp; priorisieren</button></div>
+      </section>
+
+      <section class="step-panel" id="step9">
+        <div class="step-header">
+          <div class="tag">Schritt 9 von 9 · Priorisierung</div>
+          <h3>Was ist wirklich wichtig?</h3>
+          <p>Priorisiere die Faktoren nach Bedeutung und Wirkung.</p>
+        </div>
+        <div class="card"><div class="priority-list" id="priorityList"></div></div>
+        <div class="notice"><strong>Hinweis:</strong> Hoch, mittel und niedrig reichen aus, wenn keine belastbaren Zahlen vorliegen.</div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="8">Zurück</button><button class="button green" type="button" id="finishBtn">SWOT abschließen</button></div>
+      </section>
+
+      <section class="step-panel" id="step10">
+        <div class="print-only"><h1>SWOT-Analyse · as-courage</h1></div>
+        <div class="step-header green">
+          <div class="tag">Auswertung · Ergebnis</div>
+          <h3>Deine SWOT-Analyse ist abgeschlossen</h3>
+          <p>Die Matrix zeigt deine wichtigsten internen und externen Faktoren.</p>
+        </div>
+
+        <div class="result-hero">
+          <div class="label" id="resultContext">SWOT-Analyse</div>
+          <h3 id="resultTitle">Deine Analyse</h3>
+          <p id="resultQuestion"></p>
+        </div>
+
+        <div class="summary-grid" id="summaryGrid"></div>
+        <div class="card"><h4>SWOT-Matrix</h4><div id="finalMatrix" class="swot-grid"></div></div>
+        <div class="card"><h4>Priorisierte Faktoren</h4><div id="prioritySummary"></div></div>
+
+        <div class="card tows-choice">
+          <h4>Möchtest du aus der SWOT konkrete Handlungsoptionen ableiten?</h4>
+          <p class="small">Die optionale TOWS-Methode verbindet die wichtigsten Faktoren miteinander.</p>
+          <div class="button-row"><button class="button green" type="button" id="showTowsBtn">Ja, TOWS nutzen</button><button class="button ghost" type="button" id="hideTowsBtn">Nein, SWOT reicht mir</button></div>
+        </div>
+
+        <div id="towsSection" class="hidden">
+          <div class="step-header blue">
+            <div class="tag">Optional · TOWS</div>
+            <h3>Von der Analyse zu Handlungsoptionen</h3>
+            <p>Formuliere wenige, konkrete Optionen statt langer Wunschlisten.</p>
+          </div>
+          <div class="tows-grid">
+            <div class="tows-card"><h4>SO · Stärke + Chance</h4><p>Wie können Stärken genutzt werden, um Chancen zu realisieren?</p><textarea id="towsSO"></textarea></div>
+            <div class="tows-card"><h4>ST · Stärke + Risiko</h4><p>Wie können Stärken genutzt werden, um Risiken zu begrenzen?</p><textarea id="towsST"></textarea></div>
+            <div class="tows-card"><h4>WO · Schwäche + Chance</h4><p>Was muss verbessert werden, damit Chancen genutzt werden können?</p><textarea id="towsWO"></textarea></div>
+            <div class="tows-card"><h4>WT · Schwäche + Risiko</h4><p>Wo besteht besonderer Handlungs- oder Schutzbedarf?</p><textarea id="towsWT"></textarea></div>
+          </div>
+          <div class="notice green"><strong>TOWS ist freiwillig.</strong> Einträge werden in die Ergebnisdateien übernommen.</div>
+        </div>
+
+        <div class="card" id="downloads">
+          <h4>Deine Ergebnisse herunterladen</h4>
+          <div class="download-grid">
+            <div class="download-card"><strong>Word</strong><span>Ausführliche Auswertung mit Matrix und Priorisierung.</span><button class="button primary" type="button" id="wordBtn">Word herunterladen</button></div>
+            <div class="download-card"><strong>Excel</strong><span>Strukturierte Tabelle für die Weiterarbeit.</span><button class="button green" type="button" id="excelBtn">Excel herunterladen</button></div>
+            <div class="download-card"><strong>PDF</strong><span>Ergebnisdokumentation für Ablage oder Besprechung.</span><button class="button blue" type="button" id="pdfBtn">PDF herunterladen</button></div>
+            <div class="download-card"><strong>Grafik</strong><span>Vier-Quadranten-Matrix als PNG.</span><button class="button ghost" type="button" id="pngBtn">Grafik herunterladen</button></div>
+          </div>
+        </div>
+
+        <div class="notice orange"><strong>Einordnung:</strong> Diese SWOT-Analyse ist eine strukturierte Entscheidungshilfe. Sie ersetzt keine fachliche, rechtliche, finanzielle oder sicherheitsbezogene Prüfung.</div>
+        <div class="button-row"><button class="button ghost" type="button" data-prev="9">Priorisierung ändern</button><button class="button danger" type="button" id="resetBtn">Analyse zurücksetzen</button></div>
+      </section>
+    </div>
+  </main>
+
+  <section id="methodik" class="method-card">
+    <span class="eyebrow">Methodische Grundlage</span>
+    <h2>Was dieses Tool unter SWOT versteht</h2>
+    <p>
+      SWOT steht für <strong>Strengths, Weaknesses, Opportunities und Threats</strong> – auf Deutsch
+      Stärken, Schwächen, Chancen und Risiken. Stärken und Schwächen werden als interne Faktoren betrachtet;
+      Chancen und Risiken als externe Faktoren.
+    </p>
+    <p>
+      Nach der eigentlichen SWOT kann freiwillig mit <strong>TOWS</strong> weitergearbeitet werden.
+      Dabei werden zentrale Faktoren kombiniert, um konkrete Handlungsoptionen zu entwickeln.
+    </p>
+    <details>
+      <summary>Wissenschaftliche und methodische Quellen anzeigen</summary>
+      <ol class="sources">
+        <li>Puyt, R. W., Lie, F. B. &amp; De Graaf, F. J. (2023): <em>The origins of SWOT analysis</em>, Long Range Planning. <a href="https://www.sciencedirect.com/science/article/pii/S0024630123000110" target="_blank" rel="noopener">Quelle öffnen</a></li>
+        <li>Gürel, E. &amp; Tat, M. (2017): <em>SWOT Analysis: A Theoretical Review</em>. <a href="https://doi.org/10.17719/jisr.2017.1832" target="_blank" rel="noopener">DOI öffnen</a></li>
+        <li>Hill, T. &amp; Westbrook, R. (1997): <em>SWOT Analysis: It’s Time for a Product Recall</em>. <a href="https://www.sciencedirect.com/science/article/pii/S0024630196000957" target="_blank" rel="noopener">Quelle öffnen</a></li>
+        <li>Weihrich, H. (1982): <em>The TOWS Matrix – A Tool for Situational Analysis</em>. <a href="https://doi.org/10.1016/0024-6301(82)90120-0" target="_blank" rel="noopener">DOI öffnen</a></li>
+        <li>Helms, M. M. &amp; Nixon, J. (2010): <em>Exploring SWOT analysis – where are we now?</em>. <a href="https://doi.org/10.1108/17554251011064837" target="_blank" rel="noopener">DOI öffnen</a></li>
+      </ol>
+    </details>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 Andreas Sedlag – as-courage · Hermannsburg</p>
+      <div class="footer-links">
+        <a href="referenzen.html">Referenzen</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const state={
+      currentStep:1,
+      context:'',
+      factors:{strength:[],weakness:[],opportunity:[],risk:[]},
+      completed:false
+    };
+
+    const TYPES={
+      strength:{label:'Stärken',single:'Stärke',cls:'strength',tag:'tag-s'},
+      weakness:{label:'Schwächen',single:'Schwäche',cls:'weakness',tag:'tag-w'},
+      opportunity:{label:'Chancen',single:'Chance',cls:'opportunity',tag:'tag-o'},
+      risk:{label:'Risiken',single:'Risiko',cls:'risk',tag:'tag-t'}
+    };
+
+    const evidenceOptions=['belegt','plausibel','persönliche Einschätzung','Vermutung','noch zu prüfen'];
+    const priorityOrder={hoch:0,mittel:1,niedrig:2};
+    const el=id=>document.getElementById(id);
+    const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    const clean=s=>String(s??'').trim();
+
+    function fileBase(){
+      const title=clean(el('analysisTitle').value)||'SWOT-Analyse';
+      return title.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9äöüÄÖÜß]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70)||'SWOT-Analyse';
+    }
+
+    function goStep(step){
+      const target=Math.max(1,Math.min(10,Number(step)));
+      state.currentStep=target;
+      document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+      el(`step${target}`).classList.add('active');
+      document.querySelectorAll('.step-dot').forEach(dot=>{
+        const ds=Number(dot.dataset.step);
+        dot.classList.toggle('active',ds===target);
+        dot.classList.toggle('done',ds<target);
+      });
+      el('progressBar').style.width=`${target*10}%`;
+      document.querySelector('.tool-shell').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    function showError(id,show){el(id)?.classList.toggle('show',!!show)}
+
+    function validateStep(step){
+      if(step===1){
+        const ok=!!document.querySelector('input[name="context"]:checked');
+        showError('err1',!ok);
+        return ok;
+      }
+      if(step===2){
+        const ok=clean(el('subject').value)&&clean(el('question').value)&&clean(el('goal').value);
+        showError('err2',!ok);
+        return !!ok;
+      }
+      if([4,5,6,7].includes(step)){
+        syncFactors();
+        const map={4:'strength',5:'weakness',6:'opportunity',7:'risk'};
+        const type=map[step];
+        const ok=state.factors[type].some(f=>clean(f.text));
+        showError(`err${step}`,!ok);
+        return ok;
+      }
+      return true;
+    }
+
+    document.querySelectorAll('[data-next]').forEach(btn=>btn.addEventListener('click',()=>{
+      const cur=state.currentStep;
+      if(validateStep(cur)) goStep(btn.dataset.next);
+    }));
+    document.querySelectorAll('[data-prev]').forEach(btn=>btn.addEventListener('click',()=>goStep(btn.dataset.prev)));
+    document.querySelectorAll('.step-dot').forEach(dot=>dot.addEventListener('click',()=>{
+      const target=Number(dot.dataset.step);
+      if(target<=state.currentStep||state.completed) goStep(target);
+    }));
+
+    document.querySelectorAll('input[name="context"]').forEach(radio=>radio.addEventListener('change',()=>{
+      state.context=radio.value;
+      document.querySelectorAll('.choice-card').forEach(c=>c.classList.remove('selected'));
+      radio.closest('.choice-card').classList.add('selected');
+      showError('err1',false);
+    }));
+
+    function createFactorRow(type,data={text:'',evidence:'plausibel',priority:'mittel'}){
+      const row=document.createElement('div');
+      row.className='factor-row';
+      row.dataset.type=type;
+      row.innerHTML=`<input type="text" class="factor-text" aria-label="${TYPES[type].single}" placeholder="${TYPES[type].single} konkret formulieren …" value="${esc(data.text)}">
+        <select class="factor-evidence" aria-label="Grundlage der Aussage">
+          ${evidenceOptions.map(o=>`<option ${o===data.evidence?'selected':''}>${o}</option>`).join('')}
+        </select>
+        <button class="remove-factor" type="button" aria-label="Faktor entfernen">×</button>`;
+      row.querySelector('.remove-factor').addEventListener('click',()=>{row.remove();syncFactors()});
+      row.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',syncFactors));
+      return row;
+    }
+
+    function addFactor(type,data){el(`${type}Factors`).appendChild(createFactorRow(type,data))}
+    document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>addFactor(btn.dataset.add)));
+    ['strength','weakness','opportunity','risk'].forEach(type=>addFactor(type));
+
+    function syncFactors(){
+      Object.keys(TYPES).forEach(type=>{
+        const old=state.factors[type];
+        state.factors[type]=[...el(`${type}Factors`).querySelectorAll('.factor-row')].map((row,i)=>({
+          text:clean(row.querySelector('.factor-text').value),
+          evidence:row.querySelector('.factor-evidence').value,
+          priority:old[i]?.priority||'mittel'
+        })).filter(f=>f.text);
+      });
+    }
+
+    function matrixHtml(){
+      syncFactors();
+      const quad=(type,title,meta)=>`<div class="quad quad-${TYPES[type].cls}">
+        <h4>${title}</h4><div class="meta">${meta}</div>
+        <ul>${state.factors[type].map(f=>`<li>${esc(f.text)} <span class="small">(${esc(f.evidence)})</span></li>`).join('')||'<li>Noch keine Faktoren</li>'}</ul>
+      </div>`;
+      return quad('strength','Stärken · Strengths','intern · positiv')
+        +quad('weakness','Schwächen · Weaknesses','intern · negativ')
+        +quad('opportunity','Chancen · Opportunities','extern · positiv')
+        +quad('risk','Risiken · Threats','extern · negativ');
+    }
+
+    el('buildMatrixBtn').addEventListener('click',()=>{
+      if(!validateStep(7)) return;
+      syncFactors();
+      el('matrixPreview').innerHTML=matrixHtml();
+      goStep(8);
+    });
+
+    el('confirmMatrixBtn').addEventListener('click',()=>{
+      renderPriorities();
+      goStep(9);
+    });
+
+    function allFactors(){
+      return Object.keys(TYPES).flatMap(type=>state.factors[type].map((f,i)=>({...f,type,index:i})));
+    }
+
+    function renderPriorities(){
+      syncFactors();
+      const list=el('priorityList');
+      list.innerHTML='';
+      allFactors().forEach(item=>{
+        const row=document.createElement('div');
+        row.className='priority-row';
+        row.innerHTML=`<span class="priority-tag ${TYPES[item.type].tag}">${TYPES[item.type].single}</span>
+          <span>${esc(item.text)} <span class="small">· ${esc(item.evidence)}</span></span>
+          <select aria-label="Priorität" data-priority-type="${item.type}" data-priority-index="${item.index}">
+            <option value="hoch" ${item.priority==='hoch'?'selected':''}>hoch</option>
+            <option value="mittel" ${item.priority==='mittel'?'selected':''}>mittel</option>
+            <option value="niedrig" ${item.priority==='niedrig'?'selected':''}>niedrig</option>
+          </select>`;
+        list.appendChild(row);
+      });
+      list.querySelectorAll('select').forEach(s=>s.addEventListener('change',()=>{
+        state.factors[s.dataset.priorityType][Number(s.dataset.priorityIndex)].priority=s.value;
+      }));
+    }
+
+    function renderPrioritySummary(){
+      const sorted=allFactors().sort((a,b)=>priorityOrder[a.priority]-priorityOrder[b.priority]);
+      el('prioritySummary').innerHTML=['hoch','mittel','niedrig'].map(p=>{
+        const items=sorted.filter(i=>i.priority===p);
+        if(!items.length) return '';
+        return `<h5 style="margin:14px 0 6px;text-transform:uppercase;letter-spacing:.05em;">Priorität ${p}</h5>
+          <ul>${items.map(i=>`<li><strong>${TYPES[i.type].single}:</strong> ${esc(i.text)} <span class="small">(${esc(i.evidence)})</span></li>`).join('')}</ul>`;
+      }).join('');
+    }
+
+    function renderResult(){
+      syncFactors();
+      state.completed=true;
+      el('resultContext').textContent=state.context||'SWOT-Analyse';
+      el('resultTitle').textContent=clean(el('analysisTitle').value)||'Deine SWOT-Analyse';
+      el('resultQuestion').textContent=clean(el('question').value);
+      const summary=[
+        ['Analysegegenstand',clean(el('subject').value)],
+        ['Ziel',clean(el('goal').value)],
+        ['Fakten & Rahmenbedingungen',clean(el('facts').value)||'–'],
+        ['Annahmen & offene Fragen',clean(el('assumptions').value)||'–']
+      ];
+      el('summaryGrid').innerHTML=summary.map(([a,b])=>`<div class="summary-card"><strong>${esc(a)}</strong><span>${esc(b)}</span></div>`).join('');
+      el('finalMatrix').innerHTML=matrixHtml();
+      renderPrioritySummary();
+      goStep(10);
+    }
+
+    el('finishBtn').addEventListener('click',renderResult);
+    el('showTowsBtn').addEventListener('click',()=>{
+      el('towsSection').classList.remove('hidden');
+      el('towsSection').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    el('hideTowsBtn').addEventListener('click',()=>el('towsSection').classList.add('hidden'));
+
+    function analysisData(){
+      syncFactors();
+      return {
+        title:clean(el('analysisTitle').value)||'SWOT-Analyse',
+        context:state.context,
+        subject:clean(el('subject').value),
+        question:clean(el('question').value),
+        goal:clean(el('goal').value),
+        facts:clean(el('facts').value),
+        assumptions:clean(el('assumptions').value),
+        factors:JSON.parse(JSON.stringify(state.factors)),
+        tows:{
+          SO:clean(el('towsSO').value),
+          ST:clean(el('towsST').value),
+          WO:clean(el('towsWO').value),
+          WT:clean(el('towsWT').value)
+        }
+      };
+    }
+
+    function downloadBlob(blob,name){
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=name;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+    }
+
+    function statusText(f){return `${f.text} [${f.evidence}; Priorität: ${f.priority}]`}
+
+    async function exportWord(){
+      const d=analysisData();
+      if(window.docx){
+        try{
+          const {Document,Packer,Paragraph,TextRun,HeadingLevel,Table,TableRow,TableCell,WidthType}=window.docx;
+          const children=[
+            new Paragraph({text:d.title,heading:HeadingLevel.TITLE}),
+            new Paragraph({children:[new TextRun({text:'Kontext: ',bold:true}),new TextRun(d.context)]}),
+            new Paragraph({children:[new TextRun({text:'Analysegegenstand: ',bold:true}),new TextRun(d.subject)]}),
+            new Paragraph({children:[new TextRun({text:'Fragestellung: ',bold:true}),new TextRun(d.question)]}),
+            new Paragraph({children:[new TextRun({text:'Ziel: ',bold:true}),new TextRun(d.goal)]}),
+            new Paragraph({text:'SWOT-Matrix',heading:HeadingLevel.HEADING_1})
+          ];
+          const cell=(title,type)=>new TableCell({
+            width:{size:50,type:WidthType.PERCENTAGE},
+            children:[new Paragraph({children:[new TextRun({text:title,bold:true})]}),
+              ...d.factors[type].map(f=>new Paragraph({text:'• '+statusText(f)}))]
+          });
+          children.push(new Table({
+            width:{size:100,type:WidthType.PERCENTAGE},
+            rows:[
+              new TableRow({children:[cell('STÄRKEN','strength'),cell('SCHWÄCHEN','weakness')]}),
+              new TableRow({children:[cell('CHANCEN','opportunity'),cell('RISIKEN','risk')]})
+            ]
+          }));
+          if(Object.values(d.tows).some(Boolean)){
+            children.push(new Paragraph({text:'TOWS-Handlungsoptionen',heading:HeadingLevel.HEADING_1}));
+            [['SO','Stärke + Chance'],['ST','Stärke + Risiko'],['WO','Schwäche + Chance'],['WT','Schwäche + Risiko']].forEach(([k,t])=>{
+              if(d.tows[k]) children.push(new Paragraph({children:[new TextRun({text:`${k} · ${t}: `,bold:true}),new TextRun(d.tows[k])]}));
+            });
+          }
+          const doc=new Document({sections:[{children}]});
+          const blob=await Packer.toBlob(doc);
+          downloadBlob(blob,`${fileBase()}.docx`);
+          return;
+        }catch(e){console.warn(e)}
+      }
+      alert('Die Word-Bibliothek konnte nicht geladen werden. Bitte prüfe die Internetverbindung.');
+    }
+
+    function exportExcel(){
+      const d=analysisData();
+      if(window.XLSX){
+        const wb=XLSX.utils.book_new();
+        const overview=[
+          ['SWOT-Analyse',d.title],['Kontext',d.context],['Analysegegenstand',d.subject],
+          ['Fragestellung',d.question],['Ziel',d.goal],['Fakten & Rahmenbedingungen',d.facts],
+          ['Annahmen & offene Fragen',d.assumptions]
+        ];
+        XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(overview),'Überblick');
+        const rows=[['Bereich','Faktor','Grundlage','Priorität']];
+        Object.keys(TYPES).forEach(type=>d.factors[type].forEach(f=>rows.push([TYPES[type].label,f.text,f.evidence,f.priority])));
+        XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'SWOT');
+        const towsRows=[['Kombination','Handlungsoptionen'],['SO',d.tows.SO],['ST',d.tows.ST],['WO',d.tows.WO],['WT',d.tows.WT]];
+        XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(towsRows),'TOWS optional');
+        XLSX.writeFile(wb,`${fileBase()}.xlsx`);
+      }else{
+        alert('Die Excel-Bibliothek konnte nicht geladen werden. Bitte prüfe die Internetverbindung.');
+      }
+    }
+
+    function exportPdf(){
+      const d=analysisData();
+      if(window.jspdf?.jsPDF){
+        const {jsPDF}=window.jspdf;
+        const pdf=new jsPDF({unit:'mm',format:'a4'});
+        const M=16,MAX=178;
+        let y=18;
+        const add=(text,size=10,bold=false,gap=5)=>{
+          pdf.setFont('helvetica',bold?'bold':'normal');
+          pdf.setFontSize(size);
+          const lines=pdf.splitTextToSize(String(text||''),MAX);
+          if(y+lines.length*(size*.4)>280){pdf.addPage();y=18}
+          pdf.text(lines,M,y);
+          y+=lines.length*(size*.4)+gap;
+        };
+        add(d.title,18,true,7);
+        add(`Kontext: ${d.context}`,10,true,3);
+        add(`Analysegegenstand: ${d.subject}`,10,false,3);
+        add(`Fragestellung: ${d.question}`,10,false,3);
+        add(`Ziel: ${d.goal}`,10,false,7);
+        add('SWOT-Faktoren',14,true,5);
+        Object.keys(TYPES).forEach(type=>{
+          add(TYPES[type].label,11,true,2);
+          d.factors[type].forEach(f=>add(`• ${statusText(f)}`,9,false,1));
+        });
+        if(Object.values(d.tows).some(Boolean)){
+          add('TOWS-Handlungsoptionen',14,true,5);
+          Object.entries(d.tows).forEach(([k,v])=>{if(v)add(`${k}: ${v}`,9,false,3)});
+        }
+        pdf.save(`${fileBase()}.pdf`);
+      }else{
+        window.print();
+      }
+    }
+
+    function wrapCanvas(ctx,text,x,y,maxWidth,lineHeight,maxLines=8){
+      const words=String(text).split(/\s+/);
+      let line='',lines=[];
+      for(const w of words){
+        const test=line?line+' '+w:w;
+        if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=w}else line=test;
+      }
+      if(line)lines.push(line);
+      if(lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]+=' …'}
+      lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));
+      return y+lines.length*lineHeight;
+    }
+
+    function exportPng(){
+      const d=analysisData();
+      const c=document.createElement('canvas');
+      c.width=1800;c.height=1350;
+      const ctx=c.getContext('2d');
+      ctx.fillStyle='#fffdf8';ctx.fillRect(0,0,c.width,c.height);
+      ctx.fillStyle='#f7941d';ctx.fillRect(0,0,c.width,20);
+      ctx.fillStyle='#162d4b';ctx.font='bold 62px Arial';
+      ctx.fillText('SWOT-Analyse',80,100);
+      ctx.font='bold 34px Arial';
+      wrapCanvas(ctx,d.title,80,155,1640,42,2);
+      const boxes=[
+        {x:80,y:300,title:'STÄRKEN',type:'strength',fill:'#eef8e8',line:'#4EA72E'},
+        {x:920,y:300,title:'SCHWÄCHEN',type:'weakness',fill:'#fff7ec',line:'#F7941D'},
+        {x:80,y:800,title:'CHANCEN',type:'opportunity',fill:'#edf4ff',line:'#245eaa'},
+        {x:920,y:800,title:'RISIKEN',type:'risk',fill:'#fdecea',line:'#b8392e'}
+      ];
+      boxes.forEach(b=>{
+        ctx.fillStyle=b.fill;ctx.strokeStyle=b.line;ctx.lineWidth=6;
+        ctx.beginPath();ctx.roundRect(b.x,b.y,800,430,24);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#162d4b';ctx.font='bold 34px Arial';ctx.fillText(b.title,b.x+34,b.y+55);
+        ctx.font='24px Arial';let yy=b.y+115;
+        d.factors[b.type].sort((a,b)=>priorityOrder[a.priority]-priorityOrder[b.priority]).slice(0,7).forEach(f=>{
+          ctx.fillText('•',b.x+34,yy);
+          yy=wrapCanvas(ctx,f.text,b.x+62,yy,700,31,2)+8;
+        });
+      });
+      c.toBlob(blob=>downloadBlob(blob,`${fileBase()}-SWOT-Matrix.png`),'image/png');
+    }
+
+    el('wordBtn').addEventListener('click',exportWord);
+    el('excelBtn').addEventListener('click',exportExcel);
+    el('pdfBtn').addEventListener('click',exportPdf);
+    el('pngBtn').addEventListener('click',exportPng);
+    el('resetBtn').addEventListener('click',()=>{
+      if(confirm('Möchtest du die gesamte SWOT-Analyse wirklich zurücksetzen?')) location.reload();
+    });
+  </script>
+</body>
+</html>

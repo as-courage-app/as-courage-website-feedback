@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konfliktkosten-Quiz | kostenloses Praxis-Tool | as-courage</title>
+  <meta name="description" content="Kostenloses Konfliktkosten-Quiz von as-courage: Konfliktkosten, Kommunikation und Prävention spielerisch einschätzen und Wissen vertiefen.">
+  <style>
+    :root {
+      --orange: #F29420;
+      --orange-dark: #d87f10;
+      --green: #4EA72E;
+      --green-dark: #3f8b25;
+      --ink: #17172a;
+      --muted: #5a5f73;
+      --line: #e6ded2;
+      --paper: #fffdf8;
+      --soft: #f7efe3;
+      --soft-2: #fff7ec;
+      --green-soft: #eef8e8;
+      --red: #b8392e;
+      --red-soft: #fdecea;
+      --blue: #245eaa;
+      --blue-soft: #edf4ff;
+      --shadow: 0 16px 44px rgba(26, 26, 46, .10);
+      --shadow-hover: 0 20px 60px rgba(26, 26, 46, .16);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 253, 248, .96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--orange);
+      color: #111;
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(242, 148, 32, .25);
+    }
+    .brand small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: -2px;
+    }
+    .main-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      text-decoration: none;
+      padding: 9px 11px;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--orange);
+      color: #111;
+      transform: translateY(-1px);
+    }
+    .nav-link.cta {
+      background: var(--ink);
+      color: #fff;
+    }
+    .nav-link.cta:hover {
+      background: var(--orange);
+      color: #111;
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 54px 18px 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange-dark);
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.05;
+      letter-spacing: -.04em;
+    }
+    .lead {
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 760px;
+      margin: 18px 0 0;
+    }
+    .hero-actions,
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .button {
+      appearance: none;
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 850;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .button.primary {
+      background: var(--orange);
+      color: #111;
+      box-shadow: 0 12px 30px rgba(242, 148, 32, .25);
+    }
+    .button.primary:hover { background: var(--orange-dark); color: #fff; }
+    .button.green {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(78, 167, 46, .22);
+    }
+    .button.green:hover { background: var(--green-dark); }
+    .button.ghost {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .button.white {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .hero-card,
+    .access-card,
+    .tool-shell,
+    .panel,
+    .result-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 90% 10%, rgba(242,148,32,.18), transparent 34%),
+                  radial-gradient(circle at 10% 90%, rgba(78,167,46,.14), transparent 30%);
+      pointer-events: none;
+    }
+    .hero-card > * { position: relative; }
+    .hero-card h2,
+    .access-card h2,
+    .tool-top h2,
+    .panel h2,
+    .result-card h2 {
+      margin: 0 0 8px;
+      font-size: 23px;
+      line-height: 1.2;
+    }
+    .mini-list {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+    .mini-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+    }
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      display: inline-grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .notice {
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-top: 18px;
+      font-size: 14px;
+      color: var(--muted);
+      border-left: 5px solid var(--orange);
+      background: var(--soft-2);
+    }
+    .notice.green { border-left-color: var(--green); background: var(--green-soft); }
+    .notice.red { border-left-color: var(--red); background: var(--red-soft); }
+    .notice.blue { border-left-color: var(--blue); background: var(--blue-soft); }
+    .notice strong { color: var(--ink); }
+
+    .strip {
+      background: linear-gradient(180deg, transparent 0%, var(--soft) 100%);
+      padding: 12px 18px 34px;
+    }
+    .access-card {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+    }
+    .access-card p,
+    .hero-card p,
+    .tool-top p,
+    .panel p,
+    .result-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .tool-shell {
+      max-width: var(--max);
+      margin: 34px auto 70px;
+      overflow: hidden;
+    }
+    .tool-top {
+      padding: 24px 26px;
+      background: linear-gradient(135deg, var(--ink) 0%, #2d3561 100%);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .tool-top p { color: rgba(255,255,255,.76); }
+    .tool-progress {
+      min-width: 220px;
+      text-align: right;
+    }
+    .progress-label {
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--orange), var(--green));
+      transition: width .25s ease;
+    }
+
+    .tool-body {
+      padding: 26px;
+      background: linear-gradient(180deg, #fff 0%, #fffdf8 100%);
+    }
+    .panel {
+      padding: clamp(20px, 4vw, 34px);
+    }
+    .hidden { display: none !important; }
+
+    .start-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 22px 0;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--soft-2);
+      padding: 16px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--orange-dark);
+      margin-bottom: 6px;
+    }
+    .stat span {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .quiz-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .question-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft-2);
+    }
+    .question-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 11px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .score-badge {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .question-title {
+      margin: 0;
+      font-size: clamp(20px, 3vw, 29px);
+      line-height: 1.25;
+      letter-spacing: -.02em;
+    }
+    .question-icon {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+    .answers {
+      padding: 22px 24px 8px;
+      display: grid;
+      gap: 12px;
+    }
+    .answer-button,
+    .check-option,
+    .ranking-item {
+      width: 100%;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--ink);
+      padding: 14px 15px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 750;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .answer-button:hover,
+    .check-option:hover,
+    .ranking-item:hover {
+      transform: translateY(-1px);
+      border-color: var(--orange);
+      background: var(--soft-2);
+    }
+    .answer-letter,
+    .check-mark,
+    .rank-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      display: inline-grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .answer-button.correct {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+    .answer-button.wrong {
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+    .answer-button.correct .answer-letter {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .answer-button.wrong .answer-letter {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .answer-button.locked,
+    .check-option.locked {
+      cursor: default;
+      transform: none;
+    }
+
+    .ranking-list {
+      display: grid;
+      gap: 10px;
+    }
+    .ranking-item {
+      grid-template-columns: 34px 1fr auto;
+      cursor: default;
+    }
+    .rank-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .rank-button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .rank-button:hover {
+      background: var(--orange);
+      transform: translateY(-1px);
+    }
+    .rank-button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      transform: none;
+      background: #fff;
+    }
+    .check-option.selected {
+      border-color: var(--orange);
+      background: var(--soft-2);
+    }
+    .check-option.selected .check-mark {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #111;
+    }
+    .check-option.correct-check {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+    .check-option.wrong-check {
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .feedback {
+      margin: 6px 24px 20px;
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      border-left: 5px solid var(--orange);
+      background: var(--soft-2);
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .feedback.ok {
+      border-left-color: var(--green);
+      background: var(--green-soft);
+    }
+    .feedback.nok {
+      border-left-color: var(--red);
+      background: var(--red-soft);
+    }
+    .feedback strong {
+      color: var(--ink);
+    }
+    .quiz-actions {
+      padding: 0 24px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .result-card {
+      padding: clamp(22px, 4vw, 38px);
+      text-align: center;
+    }
+    .result-emoji {
+      font-size: 56px;
+      margin-bottom: 8px;
+    }
+    .score-big {
+      font-size: clamp(54px, 10vw, 92px);
+      line-height: 1;
+      font-weight: 950;
+      color: var(--orange-dark);
+      letter-spacing: -.06em;
+      margin: 10px 0 6px;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+      text-align: left;
+    }
+    .result-tip {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: var(--soft-2);
+    }
+    .result-tip strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .source-note {
+      max-width: var(--max);
+      margin: -40px auto 70px;
+      padding: 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .source-note .notice {
+      background: #fff;
+    }
+
+    footer {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      padding: 26px 18px;
+      color: var(--muted);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 14px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 750;
+    }
+    .footer-links a:hover { color: var(--orange-dark); }
+
+    @media (max-width: 900px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .main-nav {
+        justify-content: flex-start;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 34px;
+      }
+      .access-card {
+        grid-template-columns: 1fr;
+      }
+      .tool-top {
+        flex-direction: column;
+      }
+      .tool-progress {
+        width: 100%;
+        min-width: 0;
+        text-align: left;
+      }
+      .start-grid,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .header-inner {
+        padding: 12px;
+      }
+      .main-nav {
+        gap: 6px;
+      }
+      .nav-link {
+        font-size: 13px;
+        padding: 8px 9px;
+      }
+      .hero {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .tool-shell {
+        margin: 24px 10px 54px;
+        border-radius: 18px;
+      }
+      .tool-body {
+        padding: 14px;
+      }
+      .tool-top,
+      .question-header,
+      .answers,
+      .quiz-actions {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .feedback {
+        margin-left: 16px;
+        margin-right: 16px;
+      }
+      .button {
+        width: 100%;
+      }
+      .ranking-item {
+        grid-template-columns: 34px 1fr;
+      }
+      .rank-actions {
+        grid-column: 2 / -1;
+      }
+    }
+  </style>
+<link rel="icon" type="image/jpeg" href="Bilder/signet.jpg"><style id="as-courage-design-override">
+/* as-courage Designangleichung – lokal, ohne Google Fonts */
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Orange Schaltflächen wie auf as-courage.de */
+.button.primary,
+a.button.primary,
+button.button.primary {
+  background: #F29420 !important;
+  color: #ffffff !important;
+}
+.button.primary:hover,
+a.button.primary:hover,
+button.button.primary:hover {
+  background: #d87f10 !important;
+  color: #ffffff !important;
+}
+
+/* Orange Fortschritts-/Aktivpunkte ebenfalls mit weißer Schrift */
+.step-dot.active,
+.step-dot:hover {
+  color: #ffffff !important;
+}
+
+/* Website-Header */
+.as-site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.97);
+  border-bottom:1px solid rgba(31,58,95,.10);
+  backdrop-filter:blur(12px);
+}
+.as-header-inner{
+  max-width:1180px;
+  min-height:80px;
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+.as-brand{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+  text-decoration:none;
+}
+.as-brand img{
+  display:block;
+  width:170px;
+  max-height:58px;
+  object-fit:contain;
+}
+.as-main-nav{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  margin-left:auto;
+  white-space:nowrap;
+}
+.as-main-nav a{
+  color:#1f3a5f;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  padding:28px 0 24px;
+  border-bottom:3px solid transparent;
+}
+.as-main-nav a:hover,
+.as-main-nav a.is-active{
+  color:#c64f16;
+  border-bottom-color:#c64f16;
+}
+.as-header-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#F29420;
+  color:#ffffff !important;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:800;
+  padding:13px 18px;
+  border-radius:999px;
+  white-space:nowrap;
+  box-shadow:0 10px 24px rgba(242,148,32,.18);
+}
+.as-header-cta:hover{background:#d87f10}
+
+/* Website-Footer */
+.as-site-footer{
+  background:#10253f !important;
+  color:#ffffff !important;
+  border:0 !important;
+  padding:0 20px !important;
+}
+.as-footer-inner{
+  max-width:1180px;
+  min-height:105px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  font-size:14px;
+}
+.as-footer-inner p{color:#ffffff !important;margin:0}
+.as-footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.as-footer-links a{color:#ffffff !important;text-decoration:none}
+
+/* Kein Versalien-Zwang für normale Karteninhalte */
+.choice-card,
+.choice-card strong,
+.choice-card span {
+  text-transform:none !important;
+  letter-spacing:normal;
+}
+
+@media(max-width:1080px){
+  .as-header-inner{align-items:flex-start;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+  .as-main-nav{order:3;width:100%;margin-left:0;gap:14px;flex-wrap:wrap}
+  .as-main-nav a{padding:8px 0}
+  .as-header-cta{margin-left:auto}
+}
+@media(max-width:700px){
+  .as-header-cta{display:none}
+  .as-brand img{width:145px}
+  .as-main-nav{gap:12px}
+  .as-main-nav a{font-size:13px}
+}
+</style></head>
+<body><header class="as-site-header">
+  <div class="as-header-inner">
+    <a class="as-brand" href="index.html" aria-label="as-courage Startseite">
+      <img src="Bilder/Logo%20as-courage%20transparent.png" alt="as-courage – Andreas Sedlag Kompetenztraining">
+    </a>
+
+    <nav class="as-main-nav" aria-label="Hauptnavigation">
+      <a href="index.html#start">Start</a>
+      <a href="wofuer-ich-stehe.html">Wofür ich stehe</a>
+      <a href="themen-formate.html">Themen &amp; Formate</a>
+      <a href="zielgruppen.html">Zielgruppen</a>
+      <a href="referenzen.html">Referenzen</a>
+      <a href="wissen-medien.html">Wissen &amp; Medien</a>
+      <a class="is-active" href="praxis-tools.html" aria-current="page">Praxis-Tools</a>
+      <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+
+    <a class="as-header-cta" href="index.html#kontakt">Gespräch anfragen</a>
+  </div>
+</header>
+  
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Kostenloses Praxis-Tool · Konfliktkosten spielerisch verstehen</span>
+      <h1>Konfliktkosten-Quiz für Führung, Teams und Weiterbildung</h1>
+      <p class="lead">Wie teuer werden ungelöste Konflikte wirklich? Dieses Quiz macht zentrale Zahlen, typische Kostentreiber und wichtige Präventionshebel auf einfache Weise sichtbar.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#tool">Quiz starten</a>
+        <a class="button ghost" href="praxis-tools.html">Zur Tool-Übersicht</a>
+      </div>
+    </div>
+
+    <aside class="hero-card" aria-label="Hinweise zum Konfliktkosten-Quiz">
+      <div>
+        <h2>Wofür ist das Quiz gut?</h2>
+        <ul class="mini-list">
+          <li><span class="check">✓</span><span>Es schafft einen leichten Einstieg in ein ernstes Thema – ohne erhobenen Zeigefinger.</span></li>
+          <li><span class="check">✓</span><span>Es eignet sich als Impuls für Führungskräftetrainings, Teamtage, HR-Runden und Bildungsarbeit.</span></li>
+          <li><span class="check">✓</span><span>Es ergänzt den Konfliktkostenrechner: erst Wissen aktivieren, dann eigene Größenordnungen prüfen.</span></li>
+        </ul>
+      </div>
+      <div class="notice orange"><strong>Wichtig:</strong> Das Quiz ist ein Lern- und Gesprächsimpuls. Die Zahlen sollten vor Veröffentlichung noch einmal mit den gewünschten Quellenständen geprüft werden.</div>
+    </aside>
+  </section>
+
+  
+
+  <main id="tool" class="tool-shell" aria-label="Konfliktkosten-Quiz">
+    <div class="tool-top">
+      <div>
+        <h2>Konfliktkosten-Quiz</h2>
+        <p>15 Fragen. Kurze Auswertung. Kein Speichern persönlicher Daten in dieser Testversion.</p>
+      </div>
+      <div class="tool-progress" aria-label="Fortschritt">
+        <div class="progress-label" id="progressLabel">Noch nicht gestartet</div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <div class="tool-body">
+      <section class="panel" id="startPanel">
+        <span class="eyebrow">Start</span>
+        <h2>Teste dein Konfliktkosten-Wissen.</h2>
+        <p>Das Quiz verbindet Faktenwissen mit Aha-Momenten. Es ist bewusst einfach gehalten, damit es später als Freebie schnell verständlich und mobil gut nutzbar bleibt.</p>
+
+        <div class="start-grid">
+          <div class="stat"><strong>15</strong><span>Fragen</span></div>
+          <div class="stat"><strong>8–10</strong><span>Minuten</span></div>
+          <div class="stat"><strong>17</strong><span>Punkte maximal</span></div>
+        </div>
+
+        <div class="notice blue"><strong>Hinweis für Seminare:</strong> Das Quiz kann als Einzeltest, kurzer Gruppenimpuls oder Einstieg vor dem Konfliktkostenrechner genutzt werden.</div>
+
+        <div class="button-row">
+          <button class="button primary" id="startQuizBtn">Quiz jetzt starten</button>
+          <a class="button ghost" href="konfliktkostenrechner-praxis-tool.html">Zum Konfliktkostenrechner</a>
+        </div>
+      </section>
+
+      <section class="quiz-card hidden" id="quizPanel" aria-live="polite">
+        <div class="question-header">
+          <div class="question-meta">
+            <span class="badge" id="questionBadge">Frage 1 von 15</span>
+            <span class="badge score-badge" id="scoreBadge">0 Punkte</span>
+          </div>
+          <div class="question-icon" id="questionIcon">💶</div>
+          <h2 class="question-title" id="questionTitle"></h2>
+        </div>
+        <div class="answers" id="answerArea"></div>
+        <div class="feedback hidden" id="feedbackBox"></div>
+        <div class="quiz-actions">
+          <button class="button ghost" id="restartBtn">Neu starten</button>
+          <button class="button primary" id="nextBtn" disabled="">Weiter</button>
+        </div>
+      </section>
+
+      <section class="result-card hidden" id="resultPanel">
+        <div class="result-emoji" id="resultEmoji">🎉</div>
+        <span class="eyebrow">Auswertung</span>
+        <h2 id="resultTitle">Gut gemacht.</h2>
+        <div class="score-big" id="resultScore">0 / 17</div>
+        <p id="resultText"></p>
+
+        <div class="result-grid">
+          <div class="result-tip">
+            <strong>Nächster sinnvoller Schritt</strong>
+            Mit dem Konfliktkostenrechner lassen sich eigene Größenordnungen sichtbar machen.
+          </div>
+          <div class="result-tip">
+            <strong>Für Führungskräfte</strong>
+            Die Zahlen helfen, Konfliktprävention nicht als Nebenthema zu behandeln.
+          </div>
+          <div class="result-tip">
+            <strong>Für Teams</strong>
+            Gute Fragen öffnen Gespräche, bevor Konflikte teuer werden.
+          </div>
+        </div>
+
+        <div class="button-row" style="justify-content:center;">
+          <button class="button primary" id="restartResultBtn">Quiz erneut starten</button>
+          <a class="button green" href="konfliktkostenrechner-praxis-tool.html">Konfliktkosten berechnen</a>
+          <a class="button ghost" href="index.html#kontakt">Training anfragen</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <section class="source-note">
+    <div class="notice">
+      <strong>Redaktioneller Hinweis:</strong> Diese Testdatei übernimmt die Fragen und Quellenbezüge aus der angelieferten Quiz-Datei. Vor der öffentlichen Veröffentlichung sollten Zahlen, Studiennamen und Jahresstände noch einmal fachlich und rechtlich geprüft werden.
+    </div>
+  </section>
+
+  
+
+  <footer class="as-site-footer">
+  <div class="as-footer-inner">
+    <p>© 2026 Andreas Sedlag – as-courage · Hermannsburg</p>
+    <div class="as-footer-links">
+      <a href="referenzen.html">Referenzen</a>
+      <a href="index.html#kontakt">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer><script type="application/json" id="questionsData">
+[
+  {
+    "id": 1,
+    "icon": "💶",
+    "type": "single",
+    "text": "Wie hoch ist der volkswirtschaftliche Jahresschaden durch Konflikte in deutschen Unternehmen laut DIW-Schätzung?",
+    "answers": [
+      "Ca. 5–10 Milliarden Euro",
+      "Ca. 50–100 Milliarden Euro",
+      "Ca. 200–300 Milliarden Euro",
+      "Ca. 1–2 Milliarden Euro"
+    ],
+    "correctAnswer": "Ca. 50–100 Milliarden Euro",
+    "feedback": "Richtig! Das DIW schätzt den volkswirtschaftlichen Schaden auf ca. 50–100 Mrd. Euro jährlich – das entspricht etwa dem gesamten Bundeshaushalt für Bildung und Forschung."
+  },
+  {
+    "id": 2,
+    "icon": "👔",
+    "type": "single",
+    "text": "Wie viel Prozent ihrer wöchentlichen Arbeitszeit verbringen Führungskräfte laut KPMG-Studie (2009) mit Konflikten?",
+    "answers": [
+      "5–10 %",
+      "15–20 %",
+      "30–50 %",
+      "Über 70 %"
+    ],
+    "correctAnswer": "30–50 %",
+    "feedback": "30–50 % – fast jeder zweite Arbeitstag! Die KPMG-Konfliktkostenstudie 2009 ist die wichtigste Grundlagenstudie zu diesem Thema in Deutschland."
+  },
+  {
+    "id": 3,
+    "icon": "💰",
+    "type": "single",
+    "text": "Was kosten ungelöste Konflikte pro Mitarbeiter*in und Jahr im Durchschnitt? (Hiersche 2003)",
+    "answers": [
+      "Ca. 1.200 €",
+      "Ca. 7.360 €",
+      "Ca. 3.500 €",
+      "Ca. 15.000 €"
+    ],
+    "correctAnswer": "Ca. 7.360 €",
+    "feedback": "Ca. 7.360 € pro Person und Jahr! Hochgerechnet auf 200 Beschäftigte ergibt das über 1,4 Millionen Euro jährliche Konfliktkosten."
+  },
+  {
+    "id": 4,
+    "icon": "🏥",
+    "type": "single",
+    "text": "Um wie viel Prozent sind psychische Erkrankungen als Krankmeldungsursache seit 2014 gestiegen? (AOK WIdO 2024)",
+    "answers": [
+      "Um ca. 80 %",
+      "Um ca. 25 %",
+      "Um ca. 12 %",
+      "Um ca. 47 %"
+    ],
+    "correctAnswer": "Um ca. 47 %",
+    "feedback": "+47 %! Psychische Erkrankungen sind die dritthäufigste Ursache aller Krankschreibungen und dauern im Schnitt 28,5 Tage – deutlich länger als andere Erkrankungen."
+  },
+  {
+    "id": 5,
+    "icon": "😤",
+    "type": "single",
+    "text": "Wie viel Prozent aller Beschäftigten waren laut BMAS/Uni Leipzig (2024) in den letzten 6 Monaten von Mobbing betroffen?",
+    "answers": [
+      "Ca. 15 %",
+      "Ca. 1,5 %",
+      "Ca. 6,5 %",
+      "Ca. 25 %"
+    ],
+    "correctAnswer": "Ca. 6,5 %",
+    "feedback": "6,5 % – und das ist nur das sichtbare Eisberg-Drittel! Bei 18–29-Jährigen liegt der Anteil sogar bei 11,4 %. Das Dunkelfeld wird auf das 3–5-fache geschätzt."
+  },
+  {
+    "id": 6,
+    "icon": "⚖️",
+    "type": "single",
+    "text": "Was kostet ein einzelner Mobbing-Fall ein Unternehmen im Durchschnitt laut KPMG-Studie?",
+    "answers": [
+      "Ca. 20.000 €",
+      "Ca. 150.000 €",
+      "Ca. 60.000 €",
+      "Ca. 5.000 €"
+    ],
+    "correctAnswer": "Ca. 60.000 €",
+    "feedback": "Ca. 60.000 € pro Fall! Diese Summe umfasst Fehlzeiten, Produktivitätsverlust, HR-Aufwand, eventuelle Rechtskosten und den Imageschaden."
+  },
+  {
+    "id": 7,
+    "icon": "📊",
+    "type": "single",
+    "text": "Wie hoch ist der durchschnittliche Anteil der Konfliktkosten an den Personalkosten eines Unternehmens? (KPMG 2009)",
+    "answers": [
+      "Ca. 35 %",
+      "Ca. 20 %",
+      "Ca. 5 %",
+      "Ca. 10 %"
+    ],
+    "correctAnswer": "Ca. 20 %",
+    "feedback": "20 % – jeder fünfte Euro der Personalkosten fließt in Konflikte! Bei 10 Mio. € Personalaufwand sind das 2 Mio. Euro jährlich."
+  },
+  {
+    "id": 8,
+    "icon": "🔥",
+    "type": "single",
+    "text": "Auf wie viele AU-Tage je 100 AOK-Mitglieder sind Burnout-Krankschreibungen bis 2024 gestiegen? (2014 = 100 Tage)",
+    "answers": [
+      "230 Tage",
+      "145 Tage",
+      "184 Tage",
+      "120 Tage"
+    ],
+    "correctAnswer": "184 Tage",
+    "feedback": "184 Tage – fast eine Verdoppelung in 10 Jahren! Burnout ist eng mit ungelösten Arbeitskonflikten verbunden und einer der teuersten Einzelkostentreiber."
+  },
+  {
+    "id": 9,
+    "icon": "💡",
+    "type": "single",
+    "text": "Wie hoch ist das Einsparpotenzial durch aktives Konfliktmanagement? (KPMG / konfliktkostenrechner.de)",
+    "answers": [
+      "Über 60 % der Konfliktkosten",
+      "Ca. 5 % der Konfliktkosten",
+      "Mindestens 25 % der Konfliktkosten",
+      "Ca. 10 % der Konfliktkosten"
+    ],
+    "correctAnswer": "Mindestens 25 % der Konfliktkosten",
+    "feedback": "Mindestens 25 %! Bei einem Unternehmen mit 200 Beschäftigten entspricht das ca. 400.000 Euro Einsparung pro Jahr – bei Investitionskosten im 5-stelligen Bereich."
+  },
+  {
+    "id": 10,
+    "icon": "🧠",
+    "type": "single",
+    "text": "Wie viel Prozent des Umsatzes hängen laut KPMG-Studie direkt von der Kommunikationsqualität ab?",
+    "answers": [
+      "Ca. 40 %",
+      "Ca. 10 %",
+      "Ca. 25 %",
+      "Ca. 5 %"
+    ],
+    "correctAnswer": "Ca. 25 %",
+    "feedback": "25 % – ein Viertel des Umsatzes! Konfliktmanagement und Kommunikationstraining sind keine weichen Themen, sondern harte Geschäftszahlen."
+  },
+  {
+    "id": 11,
+    "icon": "🇬🇧",
+    "type": "single",
+    "text": "Wie viel Zeit verbringen Beschäftigte in Großbritannien laut CPP Inc. durchschnittlich pro Woche mit Konflikten?",
+    "answers": [
+      "Ca. 5 Stunden",
+      "Ca. 8 Stunden",
+      "Ca. 0,5 Stunden",
+      "Ca. 2,1 Stunden"
+    ],
+    "correctAnswer": "Ca. 2,1 Stunden",
+    "feedback": "2,1 Stunden pro Woche – über 100 Stunden im Jahr pro Person! Hochgerechnet kostet das die britische Wirtschaft 28–33 Milliarden GBP jährlich."
+  },
+  {
+    "id": 12,
+    "icon": "🇪🇺",
+    "type": "single",
+    "text": "Was war laut Eurofound (2024) die Hauptursache für Arbeitskonflikte in der EU im Jahr 2023?",
+    "answers": [
+      "Generationenkonflikte",
+      "Führungsstil und Machtmissbrauch",
+      "Löhne, die nicht mit der Inflation mithalten",
+      "Digitalisierung und Homeoffice"
+    ],
+    "correctAnswer": "Löhne, die nicht mit der Inflation mithalten",
+    "feedback": "Steigende Lebenshaltungskosten bei stagnierenden Löhnen waren der größte EU-weite Konflikttreiber 2023 – besonders in Transport, Bildung, Gesundheit und Industrie."
+  },
+  {
+    "id": 13,
+    "icon": "🏥",
+    "type": "single",
+    "text": "Um wie viel Prozent erhöht sich das Krankschreibungsrisiko in Teams mit Führungskräfte-Konflikten? (Universität Riga, 2021)",
+    "answers": [
+      "Um 80 %",
+      "Um 51 %",
+      "Um 15 %",
+      "Um 30 %"
+    ],
+    "correctAnswer": "Um 51 %",
+    "feedback": "51 % – Odds Ratio 1,51! Diese EU-weite Studie belegt: Konflikte zwischen Führungskräften und Teams schaden der Gesundheit messbar und signifikant."
+  },
+  {
+    "id": 14,
+    "icon": "🎯",
+    "type": "ranking",
+    "text": "Bringe die 6 häufigsten Konfliktursachen in die richtige Reihenfolge (1 = häufigste Ursache):",
+    "items": [
+      {
+        "text": "Führungsverhalten & Machtmissbrauch",
+        "pct": 12
+      },
+      {
+        "text": "Kommunikationsprobleme & Missverständnisse",
+        "pct": 19
+      },
+      {
+        "text": "Unterschiedliche Werte, Ziele & Interessen",
+        "pct": 14
+      },
+      {
+        "text": "Generationenkonflikte",
+        "pct": 9
+      },
+      {
+        "text": "Unklare Zuständigkeiten & Rollen",
+        "pct": 22
+      },
+      {
+        "text": "Mobbing, Bullying & psychische Gewalt",
+        "pct": 8
+      }
+    ],
+    "correctOrder": [
+      4,
+      1,
+      2,
+      0,
+      3,
+      5
+    ],
+    "feedback": "Korrekte Reihenfolge: 1. Unklare Zuständigkeiten (22 %) · 2. Kommunikationsprobleme (19 %) · 3. Unterschiedliche Werte/Ziele (14 %) · 4. Führungsverhalten (12 %) · 5. Generationenkonflikte (9 %) · 6. Mobbing & Bullying (8 %)"
+  },
+  {
+    "id": 15,
+    "icon": "🥉",
+    "type": "top3",
+    "text": "Welche 3 der 6 häufigsten Konfliktursachen verursachen zusammen den größten Kostenanteil? Wähle genau 3 aus:",
+    "options": [
+      "Unklare Zuständigkeiten & Rollen (22 %)",
+      "Kommunikationsprobleme & Missverständnisse (19 %)",
+      "Unterschiedliche Werte, Ziele & Interessen (14 %)",
+      "Führungsverhalten & Machtmissbrauch (12 %)",
+      "Generationenkonflikte (9 %)",
+      "Mobbing, Bullying & psychische Gewalt (8 %)"
+    ],
+    "correctIndices": [
+      0,
+      1,
+      2
+    ],
+    "feedback": "Die Top 3 sind: Unklare Zuständigkeiten (22 %), Kommunikationsprobleme (19 %) und Unterschiedliche Werte/Ziele (14 %) – zusammen 55 % aller Konfliktursachen!"
+  }
+]
+  </script>
+
+  <script>
+    const rawQuestions = JSON.parse(document.getElementById("questionsData").textContent);
+    const maxScore = rawQuestions.reduce((sum, question) => {
+      if (question.type === "ranking" || question.type === "top3") return sum + 2;
+      return sum + 1;
+    }, 0);
+
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let rankingOrder = [];
+    let top3Selection = [];
+
+    const startPanel = document.getElementById("startPanel");
+    const quizPanel = document.getElementById("quizPanel");
+    const resultPanel = document.getElementById("resultPanel");
+    const progressLabel = document.getElementById("progressLabel");
+    const progressFill = document.getElementById("progressFill");
+    const questionBadge = document.getElementById("questionBadge");
+    const scoreBadge = document.getElementById("scoreBadge");
+    const questionIcon = document.getElementById("questionIcon");
+    const questionTitle = document.getElementById("questionTitle");
+    const answerArea = document.getElementById("answerArea");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const nextBtn = document.getElementById("nextBtn");
+
+    document.getElementById("startQuizBtn").addEventListener("click", startQuiz);
+    document.getElementById("restartBtn").addEventListener("click", startQuiz);
+    document.getElementById("restartResultBtn").addEventListener("click", startQuiz);
+    nextBtn.addEventListener("click", nextQuestion);
+
+    function startQuiz() {
+      questions = rawQuestions.map((question) => {
+        if (question.type === "single") {
+          return { ...question, displayAnswers: shuffle([...question.answers]) };
+        }
+        if (question.type === "ranking") {
+          return { ...question, displayItems: shuffle(question.items.map((item, index) => ({ ...item, originalIndex: index }))) };
+        }
+        return { ...question };
+      });
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+      top3Selection = [];
+      rankingOrder = [];
+
+      startPanel.classList.add("hidden");
+      resultPanel.classList.add("hidden");
+      quizPanel.classList.remove("hidden");
+      renderQuestion();
+      document.getElementById("tool").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderQuestion() {
+      const question = questions[currentIndex];
+      answered = false;
+      nextBtn.disabled = true;
+      nextBtn.textContent = currentIndex === questions.length - 1 ? "Auswertung anzeigen" : "Weiter";
+      feedbackBox.className = "feedback hidden";
+      feedbackBox.innerHTML = "";
+      answerArea.innerHTML = "";
+
+      const humanIndex = currentIndex + 1;
+      const progress = ((currentIndex) / questions.length) * 100;
+      progressLabel.textContent = `Frage ${humanIndex} von ${questions.length}`;
+      progressFill.style.width = `${progress}%`;
+      questionBadge.textContent = `Frage ${humanIndex} von ${questions.length}`;
+      scoreBadge.textContent = `${score} von ${maxScore} Punkten`;
+      questionIcon.textContent = question.icon || "❓";
+      questionTitle.textContent = question.text;
+
+      if (question.type === "single") renderSingle(question);
+      if (question.type === "ranking") renderRanking(question);
+      if (question.type === "top3") renderTop3(question);
+    }
+
+    function renderSingle(question) {
+      question.displayAnswers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "answer-button";
+        button.type = "button";
+        button.innerHTML = `<span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer)}</span>`;
+        button.addEventListener("click", () => chooseSingle(button, answer, question));
+        answerArea.appendChild(button);
+      });
+    }
+
+    function chooseSingle(button, answer, question) {
+      if (answered) return;
+      answered = true;
+
+      const isCorrect = answer === question.correctAnswer;
+      if (isCorrect) score += 1;
+
+      answerArea.querySelectorAll(".answer-button").forEach((btn) => {
+        btn.classList.add("locked");
+        const text = btn.textContent.slice(1).trim();
+        if (text === question.correctAnswer) btn.classList.add("correct");
+      });
+      if (!isCorrect) button.classList.add("wrong");
+
+      showFeedback(isCorrect, question.feedback, isCorrect ? "Richtig." : `Nicht ganz. Richtig ist: ${question.correctAnswer}`);
+      updateScore();
+      nextBtn.disabled = false;
+    }
+
+    function renderRanking(question) {
+      rankingOrder = [...question.displayItems];
+      const intro = document.createElement("div");
+      intro.className = "notice blue";
+      intro.innerHTML = "<strong>So geht es:</strong> Sortiere die Ursachen mit den Pfeilen. Platz 1 steht oben.";
+      answerArea.appendChild(intro);
+
+      const list = document.createElement("div");
+      list.className = "ranking-list";
+      list.id = "rankingList";
+      answerArea.appendChild(list);
+
+      const checkButton = document.createElement("button");
+      checkButton.className = "button primary";
+      checkButton.type = "button";
+      checkButton.textContent = "Reihenfolge prüfen";
+      checkButton.style.marginTop = "8px";
+      checkButton.addEventListener("click", () => checkRanking(question));
+      answerArea.appendChild(checkButton);
+
+      drawRankingList();
+    }
+
+    function drawRankingList() {
+      const list = document.getElementById("rankingList");
+      if (!list) return;
+      list.innerHTML = "";
+
+      rankingOrder.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "ranking-item";
+        row.innerHTML = `
+          <span class="rank-number">${index + 1}</span>
+          <span>${escapeHtml(item.text)} <small style="color:var(--muted);">(${item.pct} %)</small></span>
+          <span class="rank-actions">
+            <button class="rank-button" type="button" aria-label="Nach oben" ${index === 0 ? "disabled" : ""}>↑</button>
+            <button class="rank-button" type="button" aria-label="Nach unten" ${index === rankingOrder.length - 1 ? "disabled" : ""}>↓</button>
+          </span>
+        `;
+        const [up, down] = row.querySelectorAll(".rank-button");
+        up.addEventListener("click", () => moveRanking(index, -1));
+        down.addEventListener("click", () => moveRanking(index, 1));
+        list.appendChild(row);
+      });
+    }
+
+    function moveRanking(index, direction) {
+      if (answered) return;
+      const target = index + direction;
+      if (target < 0 || target >= rankingOrder.length) return;
+      [rankingOrder[index], rankingOrder[target]] = [rankingOrder[target], rankingOrder[index]];
+      drawRankingList();
+    }
+
+    function checkRanking(question) {
+      if (answered) return;
+      answered = true;
+
+      const actual = rankingOrder.map((item) => item.originalIndex);
+      let exactCount = 0;
+      actual.forEach((value, index) => {
+        if (value === question.correctOrder[index]) exactCount += 1;
+      });
+
+      const points = exactCount === question.correctOrder.length ? 2 : exactCount >= 3 ? 1 : 0;
+      score += points;
+
+      answerArea.querySelectorAll(".rank-button").forEach((btn) => btn.disabled = true);
+      const isGood = points > 0;
+      const summary = points === 2 ? "Sehr gut – die Reihenfolge stimmt vollständig." : points === 1 ? "Teilweise richtig – einige Positionen stimmen." : "Noch nicht richtig – hier lohnt sich ein genauer Blick.";
+      showFeedback(isGood, question.feedback, `${summary} Du erhältst ${points} von 2 Punkten.`);
+      updateScore();
+      nextBtn.disabled = false;
+    }
+
+    function renderTop3(question) {
+      top3Selection = [];
+      const intro = document.createElement("div");
+      intro.className = "notice blue";
+      intro.innerHTML = "<strong>So geht es:</strong> Wähle genau drei Antworten aus. Danach kannst du prüfen.";
+      answerArea.appendChild(intro);
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "check-option";
+        button.type = "button";
+        button.dataset.index = index;
+        button.innerHTML = `<span class="check-mark"> </span><span>${escapeHtml(option)}</span>`;
+        button.addEventListener("click", () => toggleTop3(button, index));
+        answerArea.appendChild(button);
+      });
+
+      const checkButton = document.createElement("button");
+      checkButton.className = "button primary";
+      checkButton.type = "button";
+      checkButton.textContent = "Auswahl prüfen";
+      checkButton.style.marginTop = "8px";
+      checkButton.disabled = true;
+      checkButton.id = "checkTop3Btn";
+      checkButton.addEventListener("click", () => checkTop3(question));
+      answerArea.appendChild(checkButton);
+    }
+
+    function toggleTop3(button, index) {
+      if (answered) return;
+      const selected = top3Selection.includes(index);
+
+      if (selected) {
+        top3Selection = top3Selection.filter((item) => item !== index);
+        button.classList.remove("selected");
+        button.querySelector(".check-mark").textContent = "";
+      } else {
+        if (top3Selection.length >= 3) return;
+        top3Selection.push(index);
+        button.classList.add("selected");
+        button.querySelector(".check-mark").textContent = "✓";
+      }
+
+      document.getElementById("checkTop3Btn").disabled = top3Selection.length !== 3;
+    }
+
+    function checkTop3(question) {
+      if (answered) return;
+      answered = true;
+
+      const correctSet = new Set(question.correctIndices);
+      const selectedSet = new Set(top3Selection);
+      const correctSelected = top3Selection.filter((index) => correctSet.has(index)).length;
+      const exact = question.correctIndices.length === top3Selection.length && question.correctIndices.every((index) => selectedSet.has(index));
+
+      const points = exact ? 2 : correctSelected >= 2 ? 1 : 0;
+      score += points;
+
+      answerArea.querySelectorAll(".check-option").forEach((btn) => {
+        const index = Number(btn.dataset.index);
+        btn.classList.add("locked");
+        if (correctSet.has(index)) btn.classList.add("correct-check");
+        if (selectedSet.has(index) && !correctSet.has(index)) btn.classList.add("wrong-check");
+      });
+      document.getElementById("checkTop3Btn").disabled = true;
+
+      const summary = exact ? "Sehr gut – genau diese drei Ursachen bilden den größten Anteil." : points === 1 ? "Teilweise richtig – zwei wichtige Ursachen waren dabei." : "Noch nicht richtig – die größten Kostentreiber lagen woanders.";
+      showFeedback(points > 0, question.feedback, `${summary} Du erhältst ${points} von 2 Punkten.`);
+      updateScore();
+      nextBtn.disabled = false;
+    }
+
+    function showFeedback(ok, text, headline) {
+      feedbackBox.className = `feedback ${ok ? "ok" : "nok"}`;
+      feedbackBox.innerHTML = `<strong>${escapeHtml(headline)}</strong><br>${escapeHtml(text)}`;
+    }
+
+    function nextQuestion() {
+      if (!answered) return;
+      if (currentIndex < questions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      quizPanel.classList.add("hidden");
+      resultPanel.classList.remove("hidden");
+      progressLabel.textContent = "Abgeschlossen";
+      progressFill.style.width = "100%";
+
+      const percent = Math.round((score / maxScore) * 100);
+      document.getElementById("resultScore").textContent = `${score} / ${maxScore}`;
+      const emoji = document.getElementById("resultEmoji");
+      const title = document.getElementById("resultTitle");
+      const text = document.getElementById("resultText");
+
+      if (percent >= 82) {
+        emoji.textContent = "🏆";
+        title.textContent = "Sehr starkes Konfliktkosten-Wissen.";
+        text.textContent = "Du erkennst zentrale Kosten- und Gesundheitsfolgen von Konflikten sehr sicher. Das ist eine gute Grundlage, um Prävention und Führungsverantwortung klar zu begründen.";
+      } else if (percent >= 60) {
+        emoji.textContent = "💡";
+        title.textContent = "Gute Grundlage – mit ein paar Aha-Momenten.";
+        text.textContent = "Viele Zusammenhänge sind schon klar. Einzelne Zahlen überraschen vermutlich noch – genau dafür ist dieses Quiz da.";
+      } else {
+        emoji.textContent = "🌱";
+        title.textContent = "Guter Einstieg in ein unterschätztes Thema.";
+        text.textContent = "Konfliktkosten sind oft unsichtbar. Dieses Quiz zeigt: Genaues Hinschauen lohnt sich – menschlich, organisatorisch und wirtschaftlich.";
+      }
+
+      document.getElementById("tool").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function updateScore() {
+      scoreBadge.textContent = `${score} von ${maxScore} Punkten`;
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+
+
+</body></html>
