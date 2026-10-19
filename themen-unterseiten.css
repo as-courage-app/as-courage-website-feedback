@@ -1,0 +1,85 @@
+/* Zusatzdesign fuer 12 Themenkacheln und ihre Unterseiten. Bestehende styles.css bleibt unveraendert. */
+#themen .topic-card { padding:0; overflow:hidden; transition: transform .2s ease,box-shadow .2s ease; }
+#themen .topic-card .topic-card-link { display:block; height:100%; padding:24px; color:inherit; text-decoration:none; border-radius:inherit; }
+#themen .topic-card h3 { transition:background-color .18s,color .18s; }
+@media(hover:hover) {#themen .topic-card:hover {transform:translateY(-5px) scale(1.015); box-shadow:0 18px 40px rgba(31,58,95,.21);} #themen .topic-card:hover h3{background:var(--orange,#f29420);color:#1a1a1a;}}
+#themen .topic-card:focus-within{outline:3px solid var(--orange,#f29420);outline-offset:3px;box-shadow:0 18px 40px rgba(31,58,95,.18)}
+#themen .topic-card .topic-card-link:focus-visible{outline:none}
+#themen .topic-card:active{transform:translateY(1px) scale(.99);background:#fff0d8}
+#themen .topic-card:active h3{background:var(--orange,#f29420);color:#1a1a1a}
+.topic-breadcrumb{font-size:.95rem;margin:0 0 1.1rem;color:var(--muted,#526681)}.topic-breadcrumb a{color:inherit}
+.topic-page-heading{max-width:840px}.topic-page-heading h1{max-width:18ch}.topic-page-heading .lead{max-width:70ch}
+.topic-page-cards{margin-top:1.8rem}.topic-page-cards .card{height:100%}
+.topic-panel{background:rgba(255,255,255,.86);padding:clamp(1.4rem,3vw,2.5rem);border-radius:24px;border:1px solid rgba(31,58,95,.1)}
+.topic-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+.topic-page .topic-feature{border-left:5px solid var(--orange,#f29420)}
+@media(prefers-reduced-motion:reduce){#themen .topic-card,#themen .topic-card h3{transition:none}}
+
+
+/* Einheitlicher mobiler Header auf allen Themen-Unterseiten */
+@media (max-width: 760px) {
+  .topic-page .site-header { position: static; }
+  .topic-page .header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px 0;
+  }
+  .topic-page .brand { justify-content: center; align-self: center; }
+  .topic-page .brand img { width: min(230px, 75vw); height: auto; }
+  .topic-page .main-nav {
+    order: initial;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+    justify-content: stretch;
+  }
+  .topic-page .main-nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    min-height: 52px;
+    padding: 10px 8px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    line-height: 1.25;
+    border: 1px solid rgba(31,58,95,.12);
+    border-radius: 999px;
+    background: rgba(255,255,255,.7);
+    text-decoration: none;
+  }
+  .topic-page .main-nav a.is-active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .topic-page .header-cta {
+    display: flex !important;
+    margin: 0;
+    width: 100%;
+    min-height: 58px;
+  }
+}
+
+/* Themenseiten: Überschriften auf Smartphones */
+@media (max-width: 640px) {
+  .topic-page .topic-page-heading h1 {
+    font-size: clamp(1.8rem, 7.5vw, 2.3rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 100%;
+    overflow-wrap: normal;
+    hyphens: auto;
+  }
+
+  .topic-page .topic-page-heading {
+    min-width: 0;
+  }
+}
