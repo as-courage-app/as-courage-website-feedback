@@ -8,6 +8,26 @@
     <meta name="description"
         content="Podcast, Videothek und Downloads von as-courage: verständliche Impulse, Videos und Materialien zur Vertiefung von Training, Workshop, Coaching und Vortrag." />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Nur die Download-Kachel: zwei zentrierte Schaltflächen am Kartenende. */
+        .page-wissen-medien #downloads { display: flex; flex-direction: column; }
+        .page-wissen-medien #downloads .downloads-actions {
+            margin-top: auto;
+            padding-top: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .page-wissen-medien #downloads .downloads-actions .btn {
+            margin: 0;
+            width: fit-content;
+            max-width: 100%;
+            text-align: center;
+            white-space: normal;
+        }
+    </style>
 </head>
 
 <body class="page-wissen-medien">
@@ -151,35 +171,41 @@
                     </span>
                     <h3>Podcast</h3>
                     <p>
-                        „Wissen für morgen – verständlich und kompakt“ bietet kurze, gut zugängliche Impulse
-                        zu Führung, Kommunikation, Zusammenarbeit, Motivation und Haltung.
+                        „Wissen für morgen – verständlich und kompakt“ bietet praxisnahe Impulse zu Führung,
+                        Kommunikation, Zusammenarbeit und gesellschaftlichen Themen. Finden Sie passende Folgen
+                        über die Stichwortsuche und hören Sie direkt auf dieser Website – kostenlos und ohne
+                        Anmeldung. Sie können den Podcast auch über gängige Podcast-Apps kostenlos abonnieren.
                         Mit KI-Unterstützung erstellt.
                     </p>
-                    <a class="btn btn-secondary" href="https://open.spotify.com/show/0X4ZjTZJ4ch0w4BDYdPVf4"
-                        target="_blank" rel="noopener noreferrer">Podcast auf Spotify öffnen</a>
+                    <p class="podcast-count" id="podcast-count" aria-live="polite">Aktuelle Folgenzahl wird geladen …</p>
+                    <a class="btn btn-secondary" href="podcast.html">Podcast-Mediathek öffnen</a>
                 </article>
 
                 <article class="card media-card" id="videothek">
                     <span class="icon-dot">▶</span>
                     <h3>Videothek</h3>
                     <p>
-                        Die Videothek bündelt kurze Filme und thematische Impulse. Sie eignet sich zur Einführung,
-                        Vertiefung und Nachbereitung von Themen aus Training und Beratung.
-                        Mit KI-Unterstützung erstellt.
+                        Die Videothek bündelt Erklärfilme und praktische Impulse. Suchen Sie bequem nach Themen und
+                        Stichworten und sehen Sie Videos direkt auf dieser Website. Den YouTube-Kanal können
+                        Sie kostenlos abonnieren. Einige Videos wurden mit KI-Unterstützung erstellt.
                     </p>
-                    <a class="btn btn-secondary" href="https://www.youtube.com/@andreassedlag6935/videos"
-                        target="_blank" rel="noopener noreferrer">Videos auf YouTube ansehen</a>
+                    <p class="video-count" id="video-count" aria-live="polite">Aktuelle Videozahl wird geladen …</p>
+                    <a class="btn btn-secondary" href="videothek.html">Videothek öffnen</a>
                 </article>
 
                 <article class="card media-card" id="downloads">
                     <span class="icon-dot">↓</span>
                     <h3>Downloads</h3>
                     <p>
-                        Im Downloadbereich finden Sie Materialien, Handouts, Arbeitshilfen und Dokumente,
-                        die Themen verständlich machen und praktische Anwendung erleichtern.
+                        Kostenlose Handouts, Checklisten und Arbeitshilfen stehen allen Interessierten offen.
+                        Ergänzende Seminarunterlagen erhalten Teilnehmende im geschützten Bereich.
                     </p>
-                    <a class="btn btn-secondary" href="https://www.as-courage.online/downloads" target="_blank"
-                        rel="noopener noreferrer">Zum Downloadbereich</a>
+                    <div class="downloads-actions">
+                        <a class="btn btn-secondary" href="https://www.as-courage.online/downloads"
+                            target="_blank" rel="noopener noreferrer">Kostenlose Downloads</a>
+                        <a class="btn btn-secondary" href="https://www.as-courage.online/downloads"
+                            target="_blank" rel="noopener noreferrer">Geschützte Seminarmaterialien</a>
+                    </div>
                 </article>
             </div>
         </section>
@@ -264,6 +290,44 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Die Videozahl stammt aus der lokalen Videoliste und aktualisiert sich nach dem Import.
+        (async function aktualisiereVideoZaehler() {
+            const anzeige = document.getElementById('video-count');
+            if (!anzeige) return;
+            try {
+                const antwort = await fetch('video-folgen.json', { cache: 'no-cache' });
+                if (!antwort.ok) throw new Error('Videodatei nicht erreichbar');
+                const videos = await antwort.json();
+                if (!Array.isArray(videos)) throw new Error('Unerwartetes Datenformat');
+                const anzahl = videos.filter(video => video && typeof video.id === 'string' && /^[A-Za-z0-9_-]{11}$/.test(video.id)).length;
+                if (!anzahl) throw new Error('Keine Videos gefunden');
+                anzeige.textContent = `Bisher ${anzahl.toLocaleString('de-DE')} Videos verfügbar`;
+            } catch (fehler) {
+                anzeige.textContent = 'Alle Videos in der Videothek entdecken';
+                console.warn('Videozähler konnte nicht aktualisiert werden:', fehler);
+            }
+        })();
+
+        // Die Folgenzahl stammt aus derselben RSS-Datendatei wie die Podcast-Mediathek.
+        // Nach einer Feed-Aktualisierung ändert sie sich ohne weitere HTML-Anpassung.
+        (async function aktualisierePodcastZaehler() {
+            const anzeige = document.getElementById('podcast-count');
+            if (!anzeige) return;
+            try {
+                const antwort = await fetch('podcast-folgen.json', { cache: 'no-cache' });
+                if (!antwort.ok) throw new Error('Folgendatei nicht erreichbar');
+                const folgen = await antwort.json();
+                if (!Array.isArray(folgen)) throw new Error('Unerwartetes Datenformat');
+                const anzahl = folgen.filter(folge => folge && typeof folge.audio === 'string' && folge.audio).length;
+                if (!anzahl) throw new Error('Keine Folgen gefunden');
+                anzeige.textContent = `Bisher ${anzahl.toLocaleString('de-DE')} Podcastfolgen verfügbar`;
+            } catch (fehler) {
+                anzeige.textContent = 'Alle Podcastfolgen in der Mediathek entdecken';
+                console.warn('Podcast-Zähler konnte nicht aktualisiert werden:', fehler);
+            }
+        })();
+    </script>
 </body>
 
 </html>

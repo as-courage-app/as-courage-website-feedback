@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Podcast-Mediathek – Wissen für morgen | as-courage</title>
+<meta name="description" content="Podcast Wissen für morgen – verständlich und kompakt: Folgen suchen und direkt auf as-courage anhören." />
+<link rel="stylesheet" href="styles.css" />
+
+<style>
+  .podcast-shell{max-width:1120px;margin:auto;padding:52px 22px 84px;color:#20354b}
+  .podcast-intro{max-width:770px;margin-bottom:28px}
+  .podcast-intro .eyebrow{color:#b34b17;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+  .podcast-intro h1{font-size:clamp(2rem,4vw,3.4rem);line-height:1.13;margin:.4em 0;color:#193754}
+  .podcast-intro p{font-size:1.08rem;line-height:1.65}
+  .podcast-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:24px 0}
+  .podcast-search{flex:1 1 300px;display:flex;flex-direction:column;gap:6px}
+  .podcast-search label{font-weight:700}
+  .podcast-search input{width:100%;padding:13px 15px;border:2px solid #aebac5;border-radius:10px;background:white;font:inherit;color:#152c41}
+  .podcast-search input:focus-visible,.podcast-card button:focus-visible,.podcast-links a:focus-visible{outline:3px solid #e67730;outline-offset:3px}
+  .podcast-counter{color:#526276;margin:0 0 13px}
+  .podcast-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px}
+  .podcast-card{background:white;border:1px solid #d8dfe5;border-radius:17px;padding:22px;box-shadow:0 6px 20px rgba(18,42,66,.07);display:flex;flex-direction:column;gap:12px;min-width:0}
+  .podcast-cover{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:12px;background:#f1f1ee}
+  .podcast-cover-fallback{width:100%;aspect-ratio:1/1;border-radius:12px;background:#193754;color:white;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;padding:18px;box-sizing:border-box}
+  .podcast-card h2{color:#183955;font-size:1.24rem;line-height:1.3;margin:0}
+  .podcast-card p{margin:0;line-height:1.6}
+  .podcast-card .podcast-date{font-size:.9rem;color:#5c6673}
+  .podcast-card .podcast-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+  .podcast-card button{align-self:flex-start;background:#c85618;color:white;border:0;border-radius:10px;font:inherit;font-weight:700;padding:10px 15px;cursor:pointer;margin-top:auto}
+  .podcast-card button:hover{background:#9c3b09}
+  .podcast-player{position:sticky;bottom:0;z-index:5;background:#173851;color:white;padding:14px max(18px,calc((100vw - 1060px)/2));box-shadow:0 -3px 18px #0002;display:none}
+  .podcast-player.is-visible{display:block}
+  .podcast-player p{color:white;margin:0 0 7px;font-weight:700}
+  .podcast-player audio{display:block;width:100%;height:44px}
+  .podcast-subscribe{background:#fff;border:1px solid rgba(31,58,95,.12);border-radius:18px;padding:20px 24px;margin:24px 0}
+  .podcast-subscribe h2{font-size:1.35rem;letter-spacing:normal}
+  .podcast-subscribe p{margin:10px 0 0;color:#354a67}
+  .podcast-subscribe .podcast-links{margin:16px 0 0}
+  .podcast-links{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0}
+  .podcast-links a{border:1px solid #bac4cc;border-radius:10px;padding:10px 15px;text-decoration:none;color:#193754;background:white;font-weight:650}
+  .podcast-links a:hover{border-color:#c85618;color:#a23f0e}
+  .podcast-subscribe .podcast-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .podcast-subscribe .podcast-links a,.podcast-subscribe .podcast-links button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;min-height:44px;border:1px solid #bac4cc;border-radius:10px;background:#fff;color:#193754;text-decoration:none;font:inherit;font-size:.93rem;font-weight:700;cursor:pointer;margin:0;line-height:1.2}
+  .podcast-subscribe .podcast-links a:hover,.podcast-subscribe .podcast-links button:hover{border-color:#c85618;color:#a23f0e;background:#fff9f2}
+  .podcast-subscribe .podcast-links a:focus-visible,.podcast-subscribe .podcast-links button:focus-visible{outline:3px solid #e67730;outline-offset:3px}
+  .podcast-subscribe .podcast-links svg{flex:none}
+  .podcast-subscribe .podcast-links .podcast-platform-pending{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;min-height:44px;border:1px solid #d4dbe0;border-radius:10px;background:#f7f8f9;color:#516175;font-size:.93rem;font-weight:700;line-height:1.2;cursor:default}
+  .podcast-platform-pending small{display:block;font-size:.7rem;font-weight:500;color:#657280;margin-top:2px}
+  .podcast-platform-pending svg{opacity:.75}
+  .podcast-copy-status{font-size:.88rem;min-height:0}
+  .podcast-copy-status:empty{display:none}
+  .podcast-notice{padding:18px 20px;border-left:4px solid #c85618;background:#f6f1eb;border-radius:8px;line-height:1.55}
+  .podcast-reveal{margin-top:10px;font-size:.9rem}
+  .podcast-back{display:inline-flex;align-items:center;gap:8px;margin:0 0 26px;padding:11px 19px;border:2px solid rgba(31,58,95,.18);border-radius:999px;background:#fff;color:var(--blue,#1f3a5f);text-decoration:none;font-weight:800;box-shadow:0 8px 22px rgba(31,58,95,.08);transition:transform .18s,box-shadow .18s,border-color .18s}
+  .podcast-back:hover{color:var(--orange-dark,#c94f17);border-color:var(--orange,#f29420);transform:translateY(-2px);box-shadow:0 12px 26px rgba(31,58,95,.14)}
+  .podcast-back:focus-visible{outline:3px solid var(--orange,#f29420);outline-offset:4px}
+  .podcast-back-bottom{margin-top:26px}
+  @media(max-width:600px){.podcast-shell{padding:32px 16px 70px}.podcast-card{padding:18px}}
+
+.podcast-shownotes{margin-top:12px;border-top:1px solid #dce3e9;padding-top:10px}
+.podcast-shownotes summary{color:#1f3a5f;font-weight:800;cursor:pointer;padding:8px 0}
+.podcast-shownotes summary:hover{color:#c94f17}
+.shownotes-full{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;color:#243b50;margin-top:12px;max-height:460px;overflow:auto}
+.shownotes-full a{color:#a8450c;text-decoration:underline}
+</style>
+</head>
+<body class="page-wissen-medien">
+<a class="skip-link" href="#main">Direkt zum Inhalt</a>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="as-courage Startseite">
+                <img src="Bilder/Logo%20as-courage%20transparent.png"
+                    alt="as-courage – Andreas Sedlag Kompetenztraining" />
+            </a>
+
+            <nav class="main-nav" aria-label="Hauptnavigation">
+                <a href="index.html#start">Start</a>
+                <a href="wofuer-ich-stehe.html">Wofür ich stehe</a>
+                <a href="themen-formate.html">Themen & Formate</a>
+                <a href="zielgruppen.html">Zielgruppen</a>
+                <a href="referenzen.html">Referenzen</a>
+                <a class="is-active" href="wissen-medien.html">Wissen & Medien</a>
+                <a href="praxis-tools.html">Praxis-Tools</a>
+                <a href="index.html#kontakt">Kontakt</a>
+            </nav>
+
+            <a class="header-cta" href="index.html#kontakt">Gespräch anfragen</a>
+        </div>
+    </header>
+
+
+<main id="main" class="podcast-shell">
+  <a class="podcast-back" href="wissen-medien.html#podcast">← Zurück zu Wissen &amp; Medien</a>
+  <div class="podcast-intro">
+    <p class="eyebrow">as-courage · Podcast-Mediathek</p>
+    <h1>Wissen für morgen – verständlich und kompakt</h1>
+    <p>Impulse zu Führung, Kommunikation, Zusammenarbeit und gesellschaftlichen Fragen. Hier können Sie veröffentlichte Folgen suchen und direkt anhören – ohne Anmeldung bei einem Podcastportal.</p>
+    <p class="podcast-reveal">Die Podcastfolgen werden mit KI-Unterstützung erstellt. Weitere Informationen und Quellen finden Sie gegebenenfalls in den Folgenbeschreibungen.</p>
+  </div>
+  <section class="podcast-subscribe" aria-labelledby="podcast-subscribe-heading">
+    <h2 id="podcast-subscribe-heading">Podcast kostenlos abonnieren</h2>
+    <p>Neue Folgen kostenlos in Ihrer bevorzugten Podcast-App erhalten. Weitere Portale sind bereits vorbereitet; ihre Direktlinks werden noch geprüft.</p>
+    <div class="podcast-links" aria-label="Podcast-Anbieter">
+      <a href="https://open.spotify.com/show/0X4ZjTZJ4ch0w4BDYdPVf4" target="_blank" rel="noopener noreferrer" aria-label="Podcast auf Spotify abonnieren (neuer Tab)">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#1DB954"/><path d="M5.7 9c4.6-1.3 9.5-.8 13.1 1.3M6.4 12.5c4.1-1 8.4-.6 11.6 1.3M7.2 15.7c3.1-.7 6.6-.3 9.3 1.1" fill="none" stroke="#fff" stroke-width="1.65" stroke-linecap="round"/></svg>
+        <span>Spotify ↗</span>
+      </a>
+      <a href="https://music.amazon.com/podcasts/4db02031-0d6b-480a-8a48-b0f6d2181427/wissen-f%C3%BCr-morgen---verst%C3%A4ndlich-und-kompakt" target="_blank" rel="noopener noreferrer" aria-label="Podcast auf Amazon Music abonnieren (neuer Tab)">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#212D3B"/><path d="M5.5 11.5h13M7 8.5h10M7 14.5h10" fill="none" stroke="#32C5FF" stroke-width="1.8" stroke-linecap="round"/><path d="M7 18c3 1.6 6.8 1.6 10.4-.5" fill="none" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span>Amazon Music ↗</span>
+      </a>
+      <span class="podcast-platform-pending" title="Podcast-Direktlink wird noch geprüft" aria-label="Apple Podcasts – Direktlink in Vorbereitung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#9B50D4"/><circle cx="12" cy="8" r="2" fill="white"/><path d="M7.5 16a6.5 6.5 0 1 1 9 0M9 13a3.7 3.7 0 1 1 6 0" fill="none" stroke="white" stroke-width="1.35"/><path d="M11 13h2l1 6h-4z" fill="white"/></svg>
+        <span>Apple Podcasts <small>in Vorbereitung</small></span>
+      </span>
+      <span class="podcast-platform-pending" title="Podcast-Direktlink wird noch geprüft" aria-label="Pocket Casts – Direktlink in Vorbereitung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#EA4B56"/><circle cx="12" cy="12" r="6" fill="none" stroke="white" stroke-width="2"/><path d="M12 7v5l4 3" fill="none" stroke="white" stroke-width="2"/></svg>
+        <span>Pocket Casts <small>in Vorbereitung</small></span>
+      </span>
+      <span class="podcast-platform-pending" title="Podcast-Direktlink wird noch geprüft" aria-label="Castbox – Direktlink in Vorbereitung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#F5A623"/><path d="M6 14a6 6 0 1 1 12 0M9 14a3 3 0 1 1 6 0" fill="none" stroke="white" stroke-width="2"/><circle cx="12" cy="17" r="1.7" fill="white"/></svg>
+        <span>Castbox <small>in Vorbereitung</small></span>
+      </span>
+      <span class="podcast-platform-pending" title="Podcast-Direktlink wird noch geprüft" aria-label="Overcast – Direktlink in Vorbereitung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#F18B2C"/><path d="M6 16.5h12M7 12a5 5 0 0 1 10 0M12 7v10" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <span>Overcast <small>in Vorbereitung</small></span>
+      </span>
+      <span class="podcast-platform-pending" title="Podcast-Direktlink wird noch geprüft" aria-label="Audible – Direktlink in Vorbereitung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#F59A23"/><path d="M5 15c4-7 10-7 14 0M7 17c3-4.5 7-4.5 10 0" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <span>Audible <small>in Vorbereitung</small></span>
+      </span>
+      <button type="button" id="podcast-copy-rss" aria-label="RSS-Adresse für weitere Podcast-Apps kopieren">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="6" fill="#F29420"/><circle cx="6.5" cy="17.5" r="2" fill="white"/><path d="M5.5 10.5a8 8 0 0 1 8 8M5.5 5a13.5 13.5 0 0 1 13.5 13.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span>RSS-Adresse kopieren</span>
+      </button>
+    </div>
+    <p id="podcast-copy-status" class="podcast-copy-status" role="status" aria-live="polite"></p>
+  </section>
+  <div class="podcast-tools">
+    <div class="podcast-search">
+      <label for="podcast-query">Podcastfolgen durchsuchen</label>
+      <input id="podcast-query" type="search" autocomplete="off" placeholder="Titel oder Stichwort eingeben …" />
+    </div>
+  </div>
+  <p id="podcast-counter" class="podcast-counter" role="status" aria-live="polite">Folgen werden geladen …</p>
+  <div id="podcast-list" class="podcast-list"></div>
+  <p id="podcast-empty" class="podcast-notice" hidden>Zurzeit sind noch keine Folgen in die Mediathek übernommen worden. Bis dahin können Sie den Podcast über Spotify oder den RSS-Feed öffnen.</p>
+
+  <a class="podcast-back podcast-back-bottom" href="wissen-medien.html#podcast">← Zurück zu Wissen &amp; Medien</a>
+</main>
+<div class="podcast-player" id="podcast-player" aria-label="Podcast-Wiedergabe">
+  <p id="podcast-now-playing">Podcastfolge</p>
+  <audio id="podcast-audio" controls preload="none">Ihr Browser unterstützt keine Audiowiedergabe.</audio>
+</div>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 Andreas Sedlag – as-courage · Hermannsburg</p>
+            <div class="footer-links">
+                <a href="referenzen.html">Referenzen</a>
+                <a href="index.html#kontakt">Kontakt</a>
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+(() => {
+  'use strict';
+  const input = document.getElementById('podcast-query');
+  const list = document.getElementById('podcast-list');
+  const status = document.getElementById('podcast-counter');
+  const empty = document.getElementById('podcast-empty');
+  const player = document.getElementById('podcast-player');
+  const audio = document.getElementById('podcast-audio');
+  const now = document.getElementById('podcast-now-playing');
+  let episodes = [];
+  function shownotesBlock(content, kind) {
+    const details=document.createElement('details');details.className=kind+'-shownotes';
+    const summary=document.createElement('summary');summary.textContent='Shownotes und Quellen anzeigen';
+    const full=document.createElement('div');full.className='shownotes-full';
+    const text=String(content||'').trim();
+    if (!text) full.textContent='Für diesen Beitrag liegt noch keine Beschreibung vor.';
+    else {
+      const matcher=/https?:\/\/[^\s<>"']+/g;let last=0;
+      for(const m of text.matchAll(matcher)) {
+        const start=m.index;full.append(document.createTextNode(text.slice(last,start)));
+        const raw=m[0],url=raw.replace(/[.,;:!?)}\]]+$/,'');
+        const a=document.createElement('a');a.href=url;a.textContent=url;a.target='_blank';a.rel='noopener noreferrer';
+        full.append(a);full.append(document.createTextNode(raw.slice(url.length)));last=start+raw.length;
+      }
+      full.append(document.createTextNode(text.slice(last)));
+    }
+    details.append(summary,full);return details;
+  }
+
+  function render() {
+    const query = input.value.toLocaleLowerCase('de').trim();
+    const matches = episodes.filter(e => (e.title + ' ' + e.description).toLocaleLowerCase('de').includes(query));
+    list.replaceChildren();
+    status.textContent = `${matches.length} ${matches.length === 1 ? 'Folge' : 'Folgen'} gefunden`;
+    empty.hidden = episodes.length !== 0 || query !== '';
+    if (episodes.length && !matches.length) {
+      const p = document.createElement('p'); p.textContent = 'Keine passenden Folgen gefunden.'; list.append(p);
+    }
+    for (const episode of matches) {
+      const card = document.createElement('article'); card.className = 'podcast-card';
+      const date = document.createElement('p'); date.className = 'podcast-date';
+      date.textContent = episode.date ? new Date(episode.date).toLocaleDateString('de-DE', {year:'numeric',month:'long',day:'numeric'}) : 'Podcastfolge';
+      const title = document.createElement('h2'); title.textContent = episode.title;
+      const description = document.createElement('p'); description.className = 'podcast-summary'; description.textContent = episode.description || '';
+      const button = document.createElement('button'); button.type='button'; button.textContent='▶ Folge anhören';
+      button.addEventListener('click', () => {
+        audio.src = episode.audio; now.textContent = episode.title; player.classList.add('is-visible');
+        audio.play().catch(() => { status.textContent = 'Wiedergabe bereit. Bitte im Audioplayer auf Start drücken.'; });
+      });
+      if (typeof episode.cover === 'string' && /^https:\/\//i.test(episode.cover)) {
+        const cover = document.createElement('img');
+        cover.className = 'podcast-cover';
+        cover.src = episode.cover;
+        cover.alt = 'Coverbild zur Folge: ' + episode.title;
+        cover.loading = 'lazy';
+        cover.decoding = 'async';
+        cover.addEventListener('error', () => {
+          const fallback = document.createElement('div');
+          fallback.className = 'podcast-cover-fallback';
+          fallback.textContent = 'Wissen für morgen';
+          cover.replaceWith(fallback);
+        }, {once:true});
+        card.append(cover);
+      } else {
+        const fallback = document.createElement('div');
+        fallback.className = 'podcast-cover-fallback';
+        fallback.textContent = 'Wissen für morgen';
+        card.append(fallback);
+      }
+      card.append(date,title,description,button);
+      card.append(shownotesBlock(episode.description,'podcast'));
+      list.append(card);
+    }
+  }
+  input.addEventListener('input', render);
+  fetch('podcast-folgen.json', {cache:'no-store'})
+    .then(r => {if(!r.ok) throw new Error('Keine Datendatei');return r.json();})
+    .then(data => {
+      episodes = Array.isArray(data) ? data.filter(e => typeof e.title === 'string' && typeof e.audio === 'string' && /^https:\/\//i.test(e.audio)) : [];
+      render();
+    })
+    .catch(() => { episodes=[];render();status.textContent='Folgen konnten nicht geladen werden.'; });
+})();
+</script>
+<script>
+(() => {
+ const button=document.getElementById('podcast-copy-rss');
+ const status=document.getElementById('podcast-copy-status');
+ if(!button || !status) return;
+ button.addEventListener('click', async () => {
+   const feed='https://anchor.fm/s/10a1c1668/podcast/rss';
+   try {
+     await navigator.clipboard.writeText(feed);
+     status.textContent='RSS-Adresse kopiert. In Ihrer Podcast-App unter „Podcast per URL hinzufügen“ einfügen.';
+   } catch (_) {
+     status.textContent='RSS-Adresse zum Kopieren: '+feed;
+   }
+ });
+})();
+</script>
+</body>
+</html>
