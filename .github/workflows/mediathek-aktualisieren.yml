@@ -1,0 +1,66 @@
+name: Mediatheken aktuell halten
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+    - cron: '43 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mediatheken-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  medien-aktualisieren:
+    if: github.repository == 'as-courage-app/as-courage-website' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '17 3 * * *')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: yt-dlp installieren
+        run: python -m pip install --disable-pip-version-check 'yt-dlp>=2026.8.19'
+      - name: Podcastfolgen aktualisieren
+        run: python podcast-feed-aktualisieren.py
+      - name: Videos aktualisieren
+        run: python video-feed-aktualisieren.py
+      - name: Nur Datendateien committen, falls geändert
+        run: |
+          git add podcast-folgen.json video-folgen.json
+          if git diff --cached --quiet; then
+            echo 'Keine Datenänderung: kein Commit und kein Deployment.'
+            exit 0
+          fi
+          git -c user.name='as-courage Medien-Automatik' -c user.email='actions@users.noreply.github.com' commit -m 'Mediathek-Daten automatisch aktualisieren'
+          git push origin HEAD:master
+
+  entwicklungsstand-synchronisieren:
+    if: github.repository == 'as-courage-app/as-courage-website-feedback' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '43 5 * * *')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Live-Stand als Remote abrufen
+        run: |
+          git remote add live-public https://github.com/as-courage-app/as-courage-website.git
+          git fetch live-public master
+      - name: Nur bei Fast-Forward synchronisieren
+        run: |
+          git checkout main
+          if ! git merge-base --is-ancestor HEAD live-public/master; then
+            echo 'STOPP: Entwicklungs- und Live-Stand sind auseinander gelaufen. Keine automatische Zusammenführung.' >&2
+            exit 1
+          fi
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse live-public/master)" ]; then
+            echo 'Bereits synchron.'
+            exit 0
+          fi
+          git merge --ff-only live-public/master
+          git push origin main
